@@ -3,6 +3,7 @@ import cors from 'cors';
 import dotenv from 'dotenv';
 import user from './routes/user.js';
 import message from './routes/message.js';
+import kpi from './routes/kpi.js'
 
 dotenv.config();
 
@@ -18,6 +19,7 @@ app.use((err, req, res, next) => {
 //Attach Routes to the app
 app.use("/api/user", user)
 app.use("/api/message", message)
+app.use("/api/kpi", kpi)
 
 app.listen(3000, () => {
     console.log("Server is running on port 3000")
