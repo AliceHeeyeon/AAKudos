@@ -148,6 +148,7 @@ async function getLeaderboardPage(kpis) {
 }
 
 // Hide ex staff from leaderboard
+
 function hideUsers(name) {
     const hiddenNames = ["Dean", "Dwayne", "Rhys", "Gary", "Blair", "Erik", "Jay"];
     return hiddenNames.some(hidden => name.startsWith(hidden));

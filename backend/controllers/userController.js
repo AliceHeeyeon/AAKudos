@@ -27,11 +27,10 @@ function generateToken(user) {
 export async function getUsers(req, res) {
     try {
         await sql.connect(config);
-        console.log("Connection established successfully");
 
         const request = new sql.Request();
         const result = await request.query('SELECT * FROM [User]');
-        res.json(result.recordsets); 
+        res.status(200).json(result.recordsets); 
     } catch (err) {
         console.error("Error querying data: ", err);
         res.status(500).send('Error querying data');
@@ -51,36 +50,60 @@ export async function getUser(req, res) {
         if (result.length === 0) {
             return res.status(404).json({ error: 'User not found' });
         }
-        res.json(result.recordsets); 
+        res.status(200).json(result.recordsets); 
     } catch (error) {
         console.error('Error querying the database:', error);
         res.status(500).json({ error: 'Internal Server Error' });
     }
 }
 
-//SIGN UP 
-export async function signup(req, res) {
-    const { name, email, password, role, joindate } = req.body;
+// CREATE USER 
+export async function createUser(req, res) {
+    const { Name, Email, Role, JoinDate, Password, DOB } = req.body;
     try {
         await sql.connect(config);
 
-        const hashedPassword = await bcrypt.hash(password, 10);
-        const request = new sql.Request();
+        const hashedPassword = await bcrypt.hash(Password, 10);
+        let request = new sql.Request();
 
         // Add a user
-        await request.input('name', sql.NVarChar, name)
-                     .input('email', sql.NVarChar, email)
-                     .input('password', sql.NVarChar, hashedPassword)
-                     .input('role', sql.NVarChar, role)
-                     .input('joindate', sql.Date, joindate)
-                     .query('INSERT INTO [User] (Name, Email, Password, Role, JoinDate) VALUES (@name, @email, @password, @role, @joindate)');
+        const result = await request 
+                      .input('Name', sql.NVarChar, Name)
+                      .input('Email', sql.NVarChar, Email)
+                      .input('Role', sql.NVarChar, Role)
+                      .input('JoinDate', sql.Date, JoinDate)
+                      .input('Password', sql.NVarChar, hashedPassword)
+                      .input('DOB', sql.Date, DOB)
+                      .query('INSERT INTO [User] (Name, Email, Role, JoinDate, Password, DOB) OUTPUT INSERTED.Id VALUES (@Name, @Email, @Role, @JoinDate, @Password, @DOB)')
 
-        // Search the new user
-        const result = await request.query('SELECT * FROM [User] WHERE Email = @email');
-        const newUser = result.recordsets[0]
+        const newUserId = result.recordset[0].Id
+
+        // Retrieve the newly created user
+        request = new sql.Request()
+        let newUserResult = await request
+            .input('Id', sql.Int, newUserId)
+            .query('SELECT * FROM [User] WHERE Id = @Id')
+
+        let newUser = newUserResult.recordset[0]
+        const newUserRole = newUser.Role
+
+        // If UserRole includes 'System' set Permission is true
+        if(newUserRole.includes("System")) {
+            request = new sql.Request()
+            await request
+                .input('Id', sql.Int, newUser.Id)
+                .query(`UPDATE [User] SET Permission = 1 WHERE Id = @Id`)
+            
+            // Then retrieve the updated user
+            request = new sql.Request()
+            newUserResult = await request
+                .input('Id', sql.Int, newUser.Id)
+                .query('SELECT * FROM [User] WHERE Id = @Id')
+            newUser = newUserResult.recordset[0];
+        } 
+           
         const token = generateToken(newUser);
-
-        res.status(201).json({ user: newUser, token });
+        res.status(200).json({ user: newUser, token });
     } catch (error) {
         console.error('Error creating user:', error);
         res.status(500).json({ error: 'Internal Server Error' });
@@ -110,9 +133,99 @@ export async function login(req, res) {
             return res.status(401).json({ error: 'Invalid email or password' });
         }
         const token = generateToken(user);
-        res.json({ user, token });
+        res.status(200).json({ user, token });
     } catch (error) {
         console.error('Error querying the database:', error);
+        res.status(500).json({ error: 'Internal Server Error' });
+    }
+}
+
+// DELETE USER
+export async function deleteUser(req, res) {
+    const { Id } = req.params;
+    try {
+        await sql.connect(config);
+
+        const request = new sql.Request();
+
+        const result = await request
+            .input('Id', sql.Int, Id)
+            .query('DELETE FROM [User] WHERE Id = @Id');
+        
+        if (result.length === 0) {
+            return res.status(404).json({ error: 'User not found' });
+        }
+
+        res.status(200).json("User deleted successfully"); 
+    } catch (error) {
+        console.error('Error deleting the database:', error);
+        res.status(500).json({ error: 'Internal Server Error' });
+    }
+}
+
+// EDIT USER
+export async function editUser(req, res) {
+    const { Id } = req.params;
+    const { Name, Email, Role, JoinDate, DOB } = req.body;
+    try {
+        await sql.connect(config);
+
+        let request = new sql.Request();
+        await request
+            .input('Id', sql.Int, Id)
+            .input('Name', sql.NVarChar, Name)
+            .input('Email', sql.NVarChar, Email)
+            .input('Role', sql.NVarChar, Role)
+            .input('JoinDate', sql.Date, JoinDate)
+            .input('DOB', sql.Date, DOB)
+            .query('UPDATE [User] SET Name = @Name, Email = @Email, Role = @Role, JoinDate = @JoinDate, DOB = @DOB WHERE Id = @Id')
+        
+        const result = await request.query(`SELECT * FROM [User] WHERE Id = @Id`)
+        const updatedUserInfo = result.recordset[0];
+
+        res.status(200).json(updatedUserInfo); 
+    } catch (error) {
+        console.error('Error updating the user info :', error);
+        res.status(500).json({ error: 'Internal Server Error' });
+    }
+}
+
+//CHANGE Password
+export async function changePassword(req, res) {
+    const { Id } = req.params;
+    const { Password, NewPassword } = req.body;
+    try {
+        await sql.connect(config);
+
+        let request = new sql.Request()
+        // Find a user using id
+        const user = await request
+            .input('Id', sql.Int, Id)
+            .query('SELECT * FROM [User] WHERE Id = @Id');
+
+        if (user.length === 0) {
+            console.log('No user found');
+            return res.status(500).json({ error: 'NO USER FOUND' });
+        }
+
+        // Compare password
+        const userPassword = user.recordset[0].Password
+        const isMatch = await bcrypt.compare(Password, userPassword)
+
+        //If they are matched, update password
+        const hashedNewPassword = await bcrypt.hash(NewPassword, 10);
+        if(isMatch) {
+            await request
+                .input('Password', sql.NVarChar, hashedNewPassword)
+                .query('UPDATE [User] SET Password = @Password WHERE Id = @Id');
+
+            res.status(200).json("Password Updated"); 
+        } else {
+            res.status(401).json("Current password is not matched")
+        }
+        
+    } catch (error) {
+        console.error('Error updating Password :', error);
         res.status(500).json({ error: 'Internal Server Error' });
     }
 }
