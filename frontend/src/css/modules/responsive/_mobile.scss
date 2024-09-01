@@ -1,0 +1,89 @@
+* {
+    padding: 0;
+    margin: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: $primary-font;
+    background-color: $background-color;
+    // To display footer always at the bottom
+    display: grid;
+    grid-template-rows: auto 1fr auto;
+    min-height: 100vh;
+}
+
+//nav
+nav {
+    background-color: $primary-blue;
+    padding: 10px 20px;
+    .nav-mobile {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        .hamburger-menu-mobile {
+            .hamburger-react {
+                color: white;
+            }
+        }
+        .logo-box-mobile {
+            padding-left: 20px;
+        }
+    }
+    .login-info {
+        display: flex;
+        align-items: center;
+        color: white;
+        .user-info {
+            padding-right: 20px;
+            border-right: 1px solid white;
+            h4 {
+                font-size: 16px;
+            }
+            P {
+                font-size: 15px;
+            }
+        }
+        .logout-btn {
+            font-size: 23px;
+            padding-left: 20px;
+        }
+       }
+    .nav-desktop {
+        display: none;
+    }
+}
+
+//Mobile menu
+.mobile-menu {
+    position: absolute;
+    background: $primary-blue;
+    left: 0;
+    padding: 0px 50px 25px;
+    width: 100%;
+    top: 76px;
+    ul {
+        list-style: none;
+        li {
+            display: flex;
+            align-items: center;
+            color: white;
+            font-size: 20px;
+            margin: 30px 0px;
+            p {
+                margin-left: 15px;
+            }
+        }
+    }
+}
+
+// Desktop menu
+.desktop-menu {
+    display: none;
+}
+
+// Footer
+footer {
+    background-color: $primary-blue;
+    color: white;
+}

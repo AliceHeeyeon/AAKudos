@@ -1,0 +1,151 @@
+@import url("https://fonts.googleapis.com/css2?family=Maven+Pro:wght@400..900&family=Ubuntu:ital,wght@0,300;0,400;0,500;0,700;1,300;1,400;1,500;1,700&display=swap");
+* {
+  padding: 0;
+  margin: 0;
+  box-sizing: border-box;
+}
+
+body {
+  font-family: "Maven Pro", sans-serif;
+  background-color: #F2F2F2;
+  display: grid;
+  grid-template-rows: auto 1fr auto;
+  min-height: 100vh;
+}
+
+nav {
+  background-color: #0C335A;
+  padding: 10px 20px;
+}
+nav .nav-mobile {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+nav .nav-mobile .hamburger-menu-mobile .hamburger-react {
+  color: white;
+}
+nav .nav-mobile .logo-box-mobile {
+  padding-left: 20px;
+}
+nav .login-info {
+  display: flex;
+  align-items: center;
+  color: white;
+}
+nav .login-info .user-info {
+  padding-right: 20px;
+  border-right: 1px solid white;
+}
+nav .login-info .user-info h4 {
+  font-size: 16px;
+}
+nav .login-info .user-info P {
+  font-size: 15px;
+}
+nav .login-info .logout-btn {
+  font-size: 23px;
+  padding-left: 20px;
+}
+nav .nav-desktop {
+  display: none;
+}
+
+.mobile-menu {
+  position: absolute;
+  background: #0C335A;
+  left: 0;
+  padding: 0px 50px 25px;
+  width: 100%;
+  top: 76px;
+}
+.mobile-menu ul {
+  list-style: none;
+}
+.mobile-menu ul li {
+  display: flex;
+  align-items: center;
+  color: white;
+  font-size: 20px;
+  margin: 30px 0px;
+}
+.mobile-menu ul li p {
+  margin-left: 15px;
+}
+
+.desktop-menu {
+  display: none;
+}
+
+footer {
+  background-color: #0C335A;
+  color: white;
+}
+
+@media screen and (min-width: 992px) {
+  nav {
+    padding: 20px 50px;
+  }
+  nav .nav-mobile {
+    display: none;
+  }
+  nav .login-info {
+    display: flex;
+    align-items: center;
+    color: white;
+  }
+  nav .login-info .user-info {
+    padding-right: 30px;
+    border-right: 1px solid white;
+  }
+  nav .login-info .user-info h4 {
+    font-size: 20px;
+  }
+  nav .login-info .user-info P {
+    font-size: 18px;
+  }
+  nav .login-info .logout-btn {
+    font-size: 26px;
+    padding-left: 30px;
+  }
+  nav .nav-desktop {
+    display: flex;
+    justify-content: space-between;
+  }
+  nav .nav-desktop img {
+    width: 200px;
+  }
+  nav .nav-desktop .logo-box-desktop {
+    font-family: "Ubuntu", sans-serif;
+    display: flex;
+    color: white;
+    align-items: flex-end;
+    font-size: 22px;
+  }
+  nav .nav-desktop .logo-box-desktop .logo-text-desktop {
+    margin-left: 10px;
+  }
+  .desktop-menu {
+    display: grid;
+    grid-template-rows: 1fr 265px;
+    width: 300px;
+    background-color: white;
+    color: #091c2f;
+    height: 100vh;
+    margin-left: 50px;
+    padding: 30px;
+  }
+  .desktop-menu li {
+    list-style: none;
+    display: flex;
+    align-items: center;
+    font-size: 20px;
+    padding: 25px 20px;
+  }
+  .desktop-menu li p {
+    margin-left: 20px;
+  }
+  footer {
+    display: none;
+  }
+}/*# sourceMappingURL=App.css.map */
