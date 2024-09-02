@@ -2,8 +2,8 @@
 
 const Home = () => {
   return (
-    <div className="home-page">
-
+    <div className="home page">
+      hello this is home page
    
 
     </div>

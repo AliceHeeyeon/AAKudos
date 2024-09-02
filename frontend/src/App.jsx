@@ -3,6 +3,8 @@ import './css/App.css'
 
 //pages
 import Home from './pages/Home'
+import Login from './pages/Login'
+import Signup from './pages/Signup'
 
 //components
 import Navbar from './components/Navbar'
@@ -14,11 +16,14 @@ function App() {
     <div className='App'>
       <HashRouter>
         <Navbar />
-        <DesktopMenu />
+        <div className='desktop-flexbox'>
+          <DesktopMenu />
           <Routes>
             <Route path='/' element={<Home />} />
+            <Route path='/login' element={<Login />} />
+            <Route path='/signup' element={<Signup />} />
           </Routes>
-        <Footer />
+        </div>
       </HashRouter>
     </div>
   )

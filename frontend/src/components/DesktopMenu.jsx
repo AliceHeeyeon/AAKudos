@@ -9,7 +9,6 @@ import { FaUser } from "react-icons/fa6";
 
 const DesktopMenu = () => {
   return (
-    <div>
       <div className='desktop-menu'>
         <div className='primary-menu'>
             <ul>
@@ -44,7 +43,6 @@ const DesktopMenu = () => {
             </ul>
         </div>
       </div>
-    </div>
   )
 }
 

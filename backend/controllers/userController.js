@@ -59,21 +59,25 @@ export async function getUser(req, res) {
 
 // CREATE USER 
 export async function createUser(req, res) {
-    const { Name, Email, Role, JoinDate, Password, DOB } = req.body;
+    const { email, name, role, joinDate, password, dob } = req.body;
     try {
         await sql.connect(config);
 
-        const hashedPassword = await bcrypt.hash(Password, 10);
+        if (!password) {
+            return res.status(400).json({ error: 'Password is required' });
+        }
+        
+        const hashedPassword = await bcrypt.hash(password, 10);
         let request = new sql.Request();
 
         // Add a user
         const result = await request 
-                      .input('Name', sql.NVarChar, Name)
-                      .input('Email', sql.NVarChar, Email)
-                      .input('Role', sql.NVarChar, Role)
-                      .input('JoinDate', sql.Date, JoinDate)
+                      .input('Name', sql.NVarChar, name)
+                      .input('Email', sql.NVarChar, email)
+                      .input('Role', sql.NVarChar, role)
+                      .input('JoinDate', sql.Date, joinDate)
                       .input('Password', sql.NVarChar, hashedPassword)
-                      .input('DOB', sql.Date, DOB)
+                      .input('DOB', sql.Date, dob)
                       .query('INSERT INTO [User] (Name, Email, Role, JoinDate, Password, DOB) OUTPUT INSERTED.Id VALUES (@Name, @Email, @Role, @JoinDate, @Password, @DOB)')
 
         const newUserId = result.recordset[0].Id

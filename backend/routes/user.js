@@ -16,7 +16,7 @@ router.get("/", getUsers)
 //GET a single user
 router.get("/:id", getUser)
 //CREATE a user
-router.post("/createuser", createUser)
+router.post("/signup", createUser)
 //Login
 router.post("/login", login);
 //DELETE a user

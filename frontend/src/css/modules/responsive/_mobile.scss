@@ -3,20 +3,24 @@
     margin: 0;
     box-sizing: border-box;
 }
+html {
+    height: 100%;
+}
 
 body {
     font-family: $primary-font;
     background-color: $background-color;
-    // To display footer always at the bottom
-    display: grid;
-    grid-template-rows: auto 1fr auto;
-    min-height: 100vh;
+}
+
+.page {
+    height: 100vh;
 }
 
 //nav
 nav {
     background-color: $primary-blue;
     padding: 10px 20px;
+
     .nav-mobile {
         display: flex;
         align-items: center;
@@ -82,8 +86,85 @@ nav {
     display: none;
 }
 
+// Signup
+.signup {
+    background-color: $primary-blue;
+    text-align: center;
+    color: white;
+    padding-top: 60px;
+
+    h4 {
+        font-size: 26px;
+    }
+    .user-input-box {
+        padding: 50px 80px 20px;
+    }
+
+    .submit-btn-box {
+        padding: 0px 80px 13px;
+        button {
+            background-color: $primary-orange;
+            border: none;
+            width: 100%;
+            padding: 16px;
+            border-radius: 10px;
+            color: white;
+            font-size: 17px;
+            font-weight: 600;
+        }
+    }
+
+    .link-to-login {
+        margin-left: 80px;
+        text-align: left;
+        display: flex;
+        span {
+            margin-left: 10px;
+            color: $primary-orange;
+            font-weight: 500;
+        }
+    }
+
+}
+
+.form-input {
+    background-color: white;
+    border-radius: 10px;
+    margin-bottom: 20px !important;
+}
+
 // Footer
 footer {
+    position: fixed;
+    height: auto;
+    width: 100%;
+    bottom: 0;
+    left: 0;
     background-color: $primary-blue;
     color: white;
+
+    .footer-logo-box {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 19px;
+        padding-top: 10px;
+    }
+
+    .footer-menu {
+        ul {
+            display: flex;
+            justify-content: center;
+            list-style: none;
+            gap: 20px;
+            margin: 20px 0px;
+            font-size: 18px;
+        }
+    }
+
+    .copyright  {
+        text-align: center;
+        font-size: 15px;
+        padding: 20px 0px;
+    }
 }
