@@ -36,6 +36,11 @@ export const login = createAsyncThunk(
             const response = await axios.post(`${baseUrl}/api/login`, {
                 email, 
                 password
+            },
+            {
+                headers: {
+                  'Content-Type': 'application/json',
+                },
             })
             dispatch(loginSuccess(response.data))
         } catch(error) {

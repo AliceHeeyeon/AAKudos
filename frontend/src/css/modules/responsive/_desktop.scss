@@ -43,10 +43,6 @@
         } 
     }
 
-    .desktop-flexbox {
-        display: flex;
-    }
-
     // Desktop menu
     .desktop-menu {
         display: grid;
@@ -67,6 +63,19 @@
                 margin-left: 20px;
             }
         }
+    }
+
+    .signup,
+    .login {
+        display: flex;
+        justify-content: center;
+        .page-container {
+            width: 850px
+        }
+    }
+
+    .login {
+        padding-top: 100px;
     }
 
     // Footer

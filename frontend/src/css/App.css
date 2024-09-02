@@ -82,22 +82,27 @@ nav .nav-desktop {
   display: none;
 }
 
-.signup {
+.signup,
+.login {
   background-color: #0C335A;
   text-align: center;
   color: white;
   padding-top: 60px;
 }
-.signup h4 {
+.signup h4,
+.login h4 {
   font-size: 26px;
 }
-.signup .user-input-box {
+.signup .user-input-box,
+.login .user-input-box {
   padding: 50px 80px 20px;
 }
-.signup .submit-btn-box {
+.signup .submit-btn-box,
+.login .submit-btn-box {
   padding: 0px 80px 13px;
 }
-.signup .submit-btn-box button {
+.signup .submit-btn-box button,
+.login .submit-btn-box button {
   background-color: #F38E2A;
   border: none;
   width: 100%;
@@ -107,15 +112,33 @@ nav .nav-desktop {
   font-size: 17px;
   font-weight: 600;
 }
-.signup .link-to-login {
+.signup .link-to-login,
+.login .link-to-login {
   margin-left: 80px;
   text-align: left;
   display: flex;
 }
-.signup .link-to-login span {
+.signup .link-to-login span,
+.login .link-to-login span {
   margin-left: 10px;
   color: #F38E2A;
   font-weight: 500;
+}
+.signup .error-message,
+.login .error-message {
+  text-align: left;
+  margin-left: 80px;
+  margin-top: 20px;
+  color: #F38E2A;
+}
+.signup .error-message .error,
+.login .error-message .error {
+  display: flex;
+  align-items: center;
+}
+.signup .error-message .error svg,
+.login .error-message .error svg {
+  margin-right: 5px;
 }
 
 .form-input {
@@ -197,9 +220,6 @@ footer .copyright {
   nav .nav-desktop .logo-box-desktop .logo-text-desktop {
     margin-left: 10px;
   }
-  .desktop-flexbox {
-    display: flex;
-  }
   .desktop-menu {
     display: grid;
     grid-template-rows: 1fr 265px;
@@ -219,6 +239,18 @@ footer .copyright {
   }
   .desktop-menu li p {
     margin-left: 20px;
+  }
+  .signup,
+  .login {
+    display: flex;
+    justify-content: center;
+  }
+  .signup .page-container,
+  .login .page-container {
+    width: 850px;
+  }
+  .login {
+    padding-top: 100px;
   }
   footer {
     display: none;

@@ -1,9 +1,9 @@
-
+import DesktopMenu from "../components/DesktopMenu"
 
 const Home = () => {
   return (
     <div className="home page">
-      hello this is home page
+      <DesktopMenu />
    
 
     </div>

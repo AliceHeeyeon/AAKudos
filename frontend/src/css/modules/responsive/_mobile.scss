@@ -87,7 +87,8 @@ nav {
 }
 
 // Signup
-.signup {
+.signup,
+.login {
     background-color: $primary-blue;
     text-align: center;
     color: white;
@@ -122,6 +123,20 @@ nav {
             margin-left: 10px;
             color: $primary-orange;
             font-weight: 500;
+        }
+    }
+
+    .error-message {
+        text-align: left;
+        margin-left: 80px;
+        margin-top: 20px;
+        color: $primary-orange;
+        .error {
+            display: flex;
+            align-items: center;
+            svg {
+                margin-right: 5px;
+            }
         }
     }
 

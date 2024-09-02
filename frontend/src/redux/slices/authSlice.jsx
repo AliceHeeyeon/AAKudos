@@ -6,12 +6,14 @@ const authSlice = createSlice({
         isAuthenticated: false,
         user: null,
         loading: false,
-        error: null
+        error: null,
+        validationErrors: {}
     },
     reducers: {
         signupRequest(state) {
             state.loading = true;
             state.error = null;
+            state.validationErrors = {};
         },
         signupSuccess(state, action) {
             state.loading = false;
@@ -21,6 +23,12 @@ const authSlice = createSlice({
         signupFailure(state, action) {
             state.loading = false;
             state.error = action.payload;
+        },
+        updateValidationErrors(state, action) {
+            state.validationErrors = action.payload
+        },
+        clearValidationErrors(state) {
+            state.validationErrors = {}
         },
         loginRequest(state) {
             state.loading = true;
@@ -46,6 +54,8 @@ export const {
     signupRequest, 
     signupSuccess,
     signupFailure,
+    updateValidationErrors,
+    clearValidationErrors,
     loginRequest,
     loginSuccess,
     loginFailure,
