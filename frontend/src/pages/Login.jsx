@@ -67,9 +67,18 @@ const Login = () => {
     }))
   }
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async(e) => {
     e.preventDefault();
-    dispatch(login(formData))
+    const resultAction = await dispatch(login(formData))
+    
+    if (login.fulfilled.match(resultAction)) {
+        console.log('Login successful:', resultAction.payload)
+        setTimeout(() => {
+            navigate('/'); 
+        }, 500);
+    } else {
+        console.log('Login failed:', resultAction.error.message)
+    }
   };
 
   const handleClickShowPassword = () => setShowPassword(!showPassword);

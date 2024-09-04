@@ -58,7 +58,7 @@ export async function createAnnouncement(req, res) {
         const result = await request
             .input('Text', sql.NVarChar, Text)
             .input('AuthorId', sql.Int, AuthorId)
-            .query("INSERT INTO  [Announcement] (Text, AuthorId, CreatedAt) OUTPUT INSERTED.Id VALUES (@Text, @AuthorId, SYSDATETIME())")
+            .query("INSERT INTO  [Announcement] (Text, AuthorId, CreatedAt) OUTPUT INSERTED.Id VALUES (@Text, @AuthorId, GETUTCDATE())")
 
         const newAnnouncementResult = await request
             .input('Id', sql.Int, result.recordset[0].Id)

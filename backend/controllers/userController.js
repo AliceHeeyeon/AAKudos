@@ -121,7 +121,8 @@ export async function login(req, res) {
         await sql.connect(config);
         const request = new sql.Request();
         request.input('email', sql.NVarChar, email);
-        
+        console.log(email, password);
+       
         // Find a user using email
         const result = await request.query('SELECT * FROM [User] WHERE Email = @email');
         if (result.length === 0) {
@@ -131,6 +132,8 @@ export async function login(req, res) {
 
         // if the user is found, compare the provide password with the bcrypt-hashed password stored for the user.
         const user = result.recordsets[0];
+        console.log(user);
+        
         const isMatch = await bcrypt.compare(password, user[0].Password)
 
         if (!isMatch) {

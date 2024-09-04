@@ -84,9 +84,12 @@ const Signup = () => {
     })
   }
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async(e) => {
     e.preventDefault();
-    dispatch(signup(formData))
+    const resultAction = await dispatch(signup(formData))
+    if (signup.fulfilled.match(resultAction)) {
+        navigate('/login')
+    }
   };
 
   const handleClickShowPassword = () => setShowPassword(!showPassword);

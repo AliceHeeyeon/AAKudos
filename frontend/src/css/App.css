@@ -18,9 +18,13 @@ body {
   height: 100vh;
 }
 
+.cursor-pointer {
+  cursor: pointer;
+}
+
 nav {
   background-color: #0C335A;
-  padding: 10px 20px;
+  padding: 15px 20px;
 }
 nav .nav-mobile {
   display: flex;
@@ -31,7 +35,7 @@ nav .nav-mobile .hamburger-menu-mobile .hamburger-react {
   color: white;
 }
 nav .nav-mobile .logo-box-mobile {
-  padding-left: 20px;
+  margin: 0 auto;
 }
 nav .login-info {
   display: flex;
@@ -251,6 +255,9 @@ footer .copyright {
   }
   .login {
     padding-top: 100px;
+  }
+  .home {
+    display: flex;
   }
   footer {
     display: none;

@@ -16,10 +16,14 @@ body {
     height: 100vh;
 }
 
+.cursor-pointer {
+    cursor: pointer;
+}
+
 //nav
 nav {
     background-color: $primary-blue;
-    padding: 10px 20px;
+    padding: 15px 20px;
 
     .nav-mobile {
         display: flex;
@@ -31,7 +35,8 @@ nav {
             }
         }
         .logo-box-mobile {
-            padding-left: 20px;
+            //padding-left: 20px;
+            margin: 0 auto;
         }
     }
     .login-info {

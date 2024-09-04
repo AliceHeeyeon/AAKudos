@@ -3,6 +3,7 @@ import axios from 'axios';
 import { signupRequest, signupSuccess, signupFailure, loginRequest, loginSuccess, loginFailure, logout } from "../slices/authSlice";
 
 const baseUrl = import.meta.env.VITE_BASE_URL;
+
 export const signup = createAsyncThunk(
     'auth/signup',
     async({ email, name, role, joinDate, password, dob }, {dispatch}) => {
@@ -30,21 +31,33 @@ export const signup = createAsyncThunk(
 
 export const login = createAsyncThunk(
     'auth/login',
-    async({ email, password }, { dispatch }) => {
+    async({ email, password }, { dispatch, rejectWithValue }) => {
         try {
             dispatch(loginRequest());
-            const response = await axios.post(`${baseUrl}/api/login`, {
+            const response = await axios.post(`${baseUrl}/api/user/login`, {
                 email, 
                 password
-            },
-            {
+            },{
                 headers: {
                   'Content-Type': 'application/json',
                 },
             })
-            dispatch(loginSuccess(response.data))
+            if(response.data) {
+                const user = response.data;
+                localStorage.setItem('user', JSON.stringify(user));
+                dispatch(loginSuccess(user))
+                return user;
+            } 
         } catch(error) {
-            dispatch(loginFailure(error.message))
+            if (error.response && error.response.data && error.response.data.message) {
+                console.log(error.response)
+                console.log(error.message);
+                
+                return rejectWithValue(error.response.data.message)
+                
+            } else {
+                return rejectWithValue(error.message)
+            }
         }
     }
 )
