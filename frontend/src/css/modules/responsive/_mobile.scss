@@ -66,6 +66,7 @@ nav {
 //Mobile menu
 .mobile-menu {
     position: absolute;
+    z-index: 999;
     background: $primary-blue;
     left: 0;
     padding: 0px 50px 25px;
@@ -91,6 +92,106 @@ nav {
     display: none;
 }
 
+//Home
+//Announcement-component
+.announcement,
+.celebration {
+    background-color: white;
+    padding: 20px 30px;
+    margin-bottom: 30px;
+    .title-box {
+        display: flex;
+        align-items: center;
+        padding-bottom : 20px;
+        margin-bottom: 20px;
+        border-bottom: 1px solid $primary-blue;
+        font-size: 23px;
+        h5 {
+            margin-left: 10px;
+        }  
+    }
+}
+
+.announcement-message {
+    height: 85px !important;
+    p {
+        font-size: $mobile-text-size;
+        margin-bottom: 7px;
+    }
+    span {
+        color: $gray-text-color;
+    }
+}
+.swiper-pagination-horizontal {
+    top: 68px !important;
+}
+.swiper-pagination-bullet-active {
+    background: $primary-blue !important;
+}
+
+.celebration-content {
+    margin-bottom: 18px;
+    p {
+        font-size: $mobile-text-size;
+        margin-bottom: 7px;
+    }
+    span {
+        color: $gray-text-color;
+    }
+}
+
+.recognition-feed {
+    padding: 20px 30px;
+    .section-title {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        margin-bottom: 20px;
+        button {
+            border: none;
+            padding: 10px 20px;
+            background-color: $primary-blue;
+            color: white;
+            border-radius: 10px;
+            font-size: 16px;
+        }
+    }
+
+    .message-box {
+        background-color: white;
+        border-top: 2px solid $primary-blue;
+        padding: 20px 30px;
+        .message-name {
+            
+            .name {
+                display: flex;
+                align-items: center;
+                margin-bottom: 10px;
+                font-size: $mobile-text-size;
+                .author {
+                    font-weight: 500;
+                    margin-right: 10px;
+                }
+                .target {
+                    color: #06417c;
+                    font-weight: 500;
+                    margin-left: 10px;
+                }
+            }
+        }
+
+        .message-content {
+            margin-bottom: 10px;
+            font-size: $mobile-text-size;
+        }
+
+        .message-time {
+            text-align: end;
+            color: $gray-text-color;
+            font-size: 15px;
+        }
+    }
+}
 // Signup
 .signup,
 .login {

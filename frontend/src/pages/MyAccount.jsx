@@ -1,9 +1,12 @@
-import React from 'react'
+import DesktopMenu from "../components/DesktopMenu"
 
 const MyAccount = () => {
   return (
-    <div>
-      My Account
+    <div className='myaccount page'>
+      <DesktopMenu />
+      <div className='myaccount-contents'>
+        My Account
+      </div>
     </div>
   )
 }

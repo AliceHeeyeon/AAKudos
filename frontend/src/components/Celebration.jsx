@@ -1,5 +1,6 @@
 import axios from "axios"
 import { useEffect, useState } from "react"
+import CelebrationIcon from '@mui/icons-material/Celebration';
 
 const baseUrl = import.meta.env.VITE_BASE_URL;
 
@@ -89,15 +90,18 @@ const Celebration = () => {
   
   return (
     <div className="celebration">
-        <h5>Celebration</h5>
+         <div className="title-box">
+            <CelebrationIcon />
+            <h5>Celebration</h5>
+        </div>
         {anniversaries.map((anniversary, index) => (
-          <div key={index}>
+          <div key={index} className="celebration-content">
             <p>{anniversary.message}</p>
             <span>{anniversary.date.formattedDate}</span>
           </div>
         ))}
         {birthdays.map((birthday, index) => (
-          <div key={index}>
+          <div key={index} className="celebration-content">
             <p>{birthday.message}</p>
             <span>{birthday.date.formattedDate}</span>
           </div>

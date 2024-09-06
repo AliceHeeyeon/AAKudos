@@ -4,7 +4,6 @@ import KudosMessage from "../components/KudosMessage";
 import Announcement from "../components/Announcement";
 import Celebration from "../components/Celebration";
 
-const baseUrl = import.meta.env.VITE_BASE_URL;
 const Home = () => {
   
   return (

@@ -26,9 +26,8 @@ function generateToken(user) {
 // GET ALL USERS 
 export async function getUsers(req, res) {
     try {
-        await sql.connect(config);
-
-        const request = new sql.Request();
+        const pool = await sql.connect(config);
+        const request = pool.request();
         const result = await request.query('SELECT * FROM [User]');
         res.status(200).json(result.recordsets); 
     } catch (err) {
@@ -41,9 +40,8 @@ export async function getUsers(req, res) {
 export async function getUser(req, res) {
     const { id } = req.params;
     try {
-        await sql.connect(config);
-
-        const request = new sql.Request();
+        const pool = await sql.connect(config);
+        const request = pool.request();
         request.input('id', sql.Int, id)
         const result = await request.query('SELECT * FROM [User] WHERE Id = @id');
         
@@ -61,14 +59,14 @@ export async function getUser(req, res) {
 export async function createUser(req, res) {
     const { email, name, role, joinDate, password, dob } = req.body;
     try {
-        await sql.connect(config);
+        const pool = await sql.connect(config);
 
         if (!password) {
             return res.status(400).json({ error: 'Password is required' });
         }
         
         const hashedPassword = await bcrypt.hash(password, 10);
-        let request = new sql.Request();
+        let request = pool.request();
 
         // Add a user
         const result = await request 
@@ -83,7 +81,7 @@ export async function createUser(req, res) {
         const newUserId = result.recordset[0].Id
 
         // Retrieve the newly created user
-        request = new sql.Request()
+        request = pool.request()
         let newUserResult = await request
             .input('Id', sql.Int, newUserId)
             .query('SELECT * FROM [User] WHERE Id = @Id')
@@ -93,13 +91,13 @@ export async function createUser(req, res) {
 
         // If UserRole includes 'System' set Permission is true
         if(newUserRole.includes("System")) {
-            request = new sql.Request()
+            request = pool.request()
             await request
                 .input('Id', sql.Int, newUser.Id)
                 .query(`UPDATE [User] SET Permission = 1 WHERE Id = @Id`)
             
             // Then retrieve the updated user
-            request = new sql.Request()
+            request = pool.request()
             newUserResult = await request
                 .input('Id', sql.Int, newUser.Id)
                 .query('SELECT * FROM [User] WHERE Id = @Id')
@@ -118,10 +116,9 @@ export async function createUser(req, res) {
 export async function login(req, res) {
     const { email, password } = req.body;
     try {
-        await sql.connect(config);
-        const request = new sql.Request();
+        const pool = await sql.connect(config);
+        const request = pool.request();
         request.input('email', sql.NVarChar, email);
-        console.log(email, password);
        
         // Find a user using email
         const result = await request.query('SELECT * FROM [User] WHERE Email = @email');
@@ -151,10 +148,9 @@ export async function login(req, res) {
 export async function deleteUser(req, res) {
     const { Id } = req.params;
     try {
-        await sql.connect(config);
+        const pool = await sql.connect(config);
 
-        const request = new sql.Request();
-
+        const request = pool.request();
         const result = await request
             .input('Id', sql.Int, Id)
             .query('DELETE FROM [User] WHERE Id = @Id');
@@ -175,9 +171,9 @@ export async function editUser(req, res) {
     const { Id } = req.params;
     const { Name, Email, Role, JoinDate, DOB } = req.body;
     try {
-        await sql.connect(config);
+        const pool = await sql.connect(config);
 
-        let request = new sql.Request();
+        let request = pool.request();
         await request
             .input('Id', sql.Int, Id)
             .input('Name', sql.NVarChar, Name)
@@ -202,9 +198,9 @@ export async function changePassword(req, res) {
     const { Id } = req.params;
     const { Password, NewPassword } = req.body;
     try {
-        await sql.connect(config);
+        const pool = await sql.connect(config);
 
-        let request = new sql.Request()
+        let request = pool.request()
         // Find a user using id
         const user = await request
             .input('Id', sql.Int, Id)

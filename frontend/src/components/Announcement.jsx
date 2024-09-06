@@ -1,6 +1,12 @@
 import axios from "axios"
 import { useEffect, useState } from "react"
 import { formatDistanceToNow, parseISO } from "date-fns";
+import CampaignIcon from '@mui/icons-material/Campaign';
+import { Swiper, SwiperSlide } from 'swiper/react';
+import { Pagination } from 'swiper/modules';
+// Import Swiper styles
+import 'swiper/css';
+import 'swiper/css/pagination';
 
 const baseUrl = import.meta.env.VITE_BASE_URL;
 const Announcement = () => {
@@ -26,13 +32,25 @@ const Announcement = () => {
     };
   return (
     <div className="announcement">
-        <h5>Announcement</h5>
+        <div className="title-box">
+            <CampaignIcon />
+            <h5>Announcement</h5>
+        </div>
+        <Swiper
+        pagination={{
+          dynamicBullets: true,
+        }}
+        modules={[Pagination]}
+        className="mySwiper"
+      >
         {announcements.map((announcement, index) => (
-            <div key={index} className="announcement-message">
+            <SwiperSlide key={index} className="announcement-message">
                 <p>{announcement.Text}</p>
                 <span>{timeAgo(announcement.CreatedAt)} ago</span>
-            </div>
+            </SwiperSlide>
         ))}
+      </Swiper>
+        
     </div>
   )
 }

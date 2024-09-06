@@ -16,9 +16,8 @@ const config = {
 //GET ALL Annoucement
 export async function getAllAnnouncement(req, res) {
     try {
-        await sql.connect(config);
-
-        const request = new sql.Request();
+        const pool = await sql.connect(config);
+        const request = pool.request();
         const result = await request.query('SELECT * FROM [Announcement]');
         console.log(result)
         res.status(200).json(result.recordsets); 
@@ -33,9 +32,8 @@ export async function getAnnouncement(req, res) {
     const { Id } = req.params;
     
     try {
-        await sql.connect(config);
-
-        const request = new sql.Request();
+        const pool = await sql.connect(config);
+        const request = pool.request();
         const result = await request
             .input('Id', sql.Int, Id)
             .query('SELECT * FROM [Announcement] WHERE Id = @Id')
@@ -52,9 +50,8 @@ export async function createAnnouncement(req, res) {
     const { Text, AuthorId } = req.body;
 
     try {
-        await sql.connect(config);
-
-        const request = new sql.Request();
+        const pool = await sql.connect(config);
+        const request = pool.request();
         const result = await request
             .input('Text', sql.NVarChar, Text)
             .input('AuthorId', sql.Int, AuthorId)
@@ -76,9 +73,8 @@ export async function createAnnouncement(req, res) {
 export async function deleteAnnouncement(req, res) {
     const { Id } = req.params;
     try {
-        await sql.connect(config);
-
-        const request = new sql.Request();
+        const pool = await sql.connect(config);
+        const request = pool.request();
 
         const result = await request
             .input('Id', sql.Int, Id)

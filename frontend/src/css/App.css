@@ -62,6 +62,7 @@ nav .nav-desktop {
 
 .mobile-menu {
   position: absolute;
+  z-index: 999;
   background: #0C335A;
   left: 0;
   padding: 0px 50px 25px;
@@ -84,6 +85,103 @@ nav .nav-desktop {
 
 .desktop-menu {
   display: none;
+}
+
+.announcement,
+.celebration {
+  background-color: white;
+  padding: 20px 30px;
+  margin-bottom: 30px;
+}
+.announcement .title-box,
+.celebration .title-box {
+  display: flex;
+  align-items: center;
+  padding-bottom: 20px;
+  margin-bottom: 20px;
+  border-bottom: 1px solid #0C335A;
+  font-size: 23px;
+}
+.announcement .title-box h5,
+.celebration .title-box h5 {
+  margin-left: 10px;
+}
+
+.announcement-message {
+  height: 85px !important;
+}
+.announcement-message p {
+  font-size: 18px;
+  margin-bottom: 7px;
+}
+.announcement-message span {
+  color: rgb(94, 93, 93);
+}
+
+.swiper-pagination-horizontal {
+  top: 68px !important;
+}
+
+.swiper-pagination-bullet-active {
+  background: #0C335A !important;
+}
+
+.celebration-content {
+  margin-bottom: 18px;
+}
+.celebration-content p {
+  font-size: 18px;
+  margin-bottom: 7px;
+}
+.celebration-content span {
+  color: rgb(94, 93, 93);
+}
+
+.recognition-feed {
+  padding: 20px 30px;
+}
+.recognition-feed .section-title {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 20px;
+}
+.recognition-feed .section-title button {
+  border: none;
+  padding: 10px 20px;
+  background-color: #0C335A;
+  color: white;
+  border-radius: 10px;
+  font-size: 16px;
+}
+.recognition-feed .message-box {
+  background-color: white;
+  border-top: 2px solid #0C335A;
+  padding: 20px 30px;
+}
+.recognition-feed .message-box .message-name .name {
+  display: flex;
+  align-items: center;
+  margin-bottom: 10px;
+  font-size: 18px;
+}
+.recognition-feed .message-box .message-name .name .author {
+  font-weight: 500;
+  margin-right: 10px;
+}
+.recognition-feed .message-box .message-name .name .target {
+  color: #06417c;
+  font-weight: 500;
+  margin-left: 10px;
+}
+.recognition-feed .message-box .message-content {
+  margin-bottom: 10px;
+  font-size: 18px;
+}
+.recognition-feed .message-box .message-time {
+  text-align: end;
+  color: rgb(94, 93, 93);
+  font-size: 15px;
 }
 
 .signup,
@@ -182,6 +280,23 @@ footer .copyright {
 }
 
 @media screen and (min-width: 992px) {
+  .home,
+  .kudosboard,
+  .saleschart,
+  .anniversary,
+  .admin,
+  .myaccount {
+    display: flex;
+  }
+  .home-contents,
+  .kudosboard-contents,
+  .saleschart-contents,
+  .anniversary-contents,
+  .admin-contents,
+  .myaccount-contents {
+    flex: 1;
+    margin: 20px 30px;
+  }
   nav {
     padding: 20px 50px;
   }
@@ -256,8 +371,21 @@ footer .copyright {
   .login {
     padding-top: 100px;
   }
-  .home {
+  .kudosboard-contents {
     display: flex;
+    gap: 20px;
+  }
+  .kudosboard-contents .kudos-ranking {
+    flex: 2.5;
+    background-color: white;
+    border-radius: 10px;
+    padding: 40px;
+  }
+  .kudosboard-contents .senders-ranking {
+    flex: 1;
+    background-color: white;
+    border-radius: 10px;
+    padding: 20px;
   }
   footer {
     display: none;

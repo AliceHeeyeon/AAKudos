@@ -15,9 +15,8 @@ const config = {
 
 export async function getMessages(req, res) {
     try {
-        await sql.connect(config);
-
-        const request = new sql.Request();
+        const pool = await sql.connect(config);
+        const request = pool.request();
         const result = await request.query('SELECT * FROM [KudosMessage]');
         console.log(result)
         res.json(result.recordsets); 
@@ -30,9 +29,8 @@ export async function getMessages(req, res) {
 export async function createMessage(req, res) {
     const { AuthorId, TargetId, Content } = req.body;
     try {
-        await sql.connect(config);
-
-        const request = new sql.Request();
+        const pool = await sql.connect(config);
+        const request = pool.request();
         const result = await request
             .input('AuthorId', sql.Int, AuthorId)
             .input('TargetId', sql.Int, TargetId)
@@ -56,8 +54,8 @@ export async function updateMessage(req, res) {
     const { AuthorId, TargetId, Content } = req.body;
 
     try {
-        await sql.connect(config);
-        const request = new sql.Request();
+        const pool = await sql.connect(config);
+        const request = pool.request();
         await request
             .input('Id', sql.Int, Id)
             .input('AuthorId', sql.Int, AuthorId)

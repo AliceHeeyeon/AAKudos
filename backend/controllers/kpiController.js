@@ -13,13 +13,31 @@ const config = {
     }
 }
 
+let poolPromise = null;
+
+async function getSqlPool() {
+    if (!poolPromise) {
+        poolPromise = new sql.ConnectionPool(config)
+            .connect()
+            .then(pool => {
+                console.log('Connected to SQL Server');
+                return pool;
+            })
+            .catch(err => {
+                console.error('Database connection failed:', err);
+                poolPromise = null;
+                throw err; 
+            });
+    }
+    return poolPromise;
+}
+
 // Get KPI groups and order by 'ordinal'. 
 // There are 6 groups where k.LeaderboardEnabled = 1
 export async function getGroups(req, res) {
     try {
-        await sql.connect(config);
-
-        const request = new sql.Request();
+        const pool = await getSqlPool();
+        const request = pool.request();
         const response = await request.query(
             `SELECT DISTINCT g.Id AS id, g.Name AS text, g.Ordinal AS ordinal
             FROM [UserKPIGroup] g
@@ -33,6 +51,7 @@ export async function getGroups(req, res) {
         groups.sort((a, b) => a.ordinal - b.ordinal)
         const leaderboardPages = await getAllKPIData(groups);
         res.status(200).json(leaderboardPages);
+        console.log(response.recordset);
         
     } catch (err) {
         console.error('Error querying to get groups:', err);
@@ -43,7 +62,7 @@ export async function getGroups(req, res) {
 // Query SQL database to retrieve KPI data matching the given conditions for all groups
 async function getAllKPIData(groups) {
     try {
-        await sql.connect(config);
+        const pool = await getSqlPool();
 
         let today = new Date();
         let dayOfWeek = today.getDay();
@@ -63,7 +82,7 @@ async function getAllKPIData(groups) {
 
         let allKpis = [];
         for(let group of groups) {
-            const request = new sql.Request();
+            const request = pool.request();
             const kpis = await request
             .input('userKpiGroup', sql.UniqueIdentifier, group.id)
             .input('weekEnding', weekEnding)
@@ -85,6 +104,7 @@ async function getAllKPIData(groups) {
                 
                 allKpis = allKpis.concat(kpis.recordset);
             }
+        console.log(allKpis)
         return getLeaderboardPage(allKpis);
     } catch (err) {
         console.error('Error querying the database:', err);
@@ -135,11 +155,11 @@ async function getLeaderboardPage(kpis) {
         kpiData.rankings.sort((a, b) => b.value - a.value);
 
         // add positions after sorting
-        kpiData.rankings = kpiData.rankings.map((r, index) => ({
-            position: index + 1,
-            name: r.name,
-            value: r.value + 'K'
-        }));
+        // kpiData.rankings = kpiData.rankings.map((r, index) => ({
+        //     position: index + 1,
+        //     name: r.name,
+        //     value: r.value
+        // }));
 
         pages.push(kpiData);
     }
@@ -148,7 +168,6 @@ async function getLeaderboardPage(kpis) {
 }
 
 // Hide ex staff from leaderboard
-
 function hideUsers(name) {
     const hiddenNames = ["Dean", "Dwayne", "Rhys", "Gary", "Blair", "Erik", "Jay"];
     return hiddenNames.some(hidden => name.startsWith(hidden));

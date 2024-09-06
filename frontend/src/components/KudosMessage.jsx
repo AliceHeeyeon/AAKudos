@@ -58,19 +58,20 @@ const KudosMessage = () => {
         {kudosMessages.map((msg) => (
         <div key={msg.Id} className="recognition-list">
         <div className="message-box" >
-            <div className="message-name-time">
-            <div className="name">
-                <p>{getUserNameById(msg.AuthorId)}</p>
-                recognized
-                <span>{getUserNameById(msg.TargetId)}</span>
+            <div className="message-name">
+                <div className="name">
+                    <p className="author">{getUserNameById(msg.AuthorId)}  </p>
+                    <span>recognized</span>
+                    <p className="target">{getUserNameById(msg.TargetId)}</p>
+                </div>
+            <div className="message-content">
+                <p>{msg.Content}</p>
             </div>
-            <div className="time">
+            <div className="message-time">
                 <p>{formatDate(msg.CreatedAt)}</p>
             </div>
             </div>
-            <div className="message-content">
-            <p>{msg.Content}</p>
-            </div>
+            
         </div>
         </div>
         ))}

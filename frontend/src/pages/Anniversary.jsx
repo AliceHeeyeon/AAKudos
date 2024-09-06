@@ -2,6 +2,7 @@ import {useState, useEffect} from 'react'
 import axios from 'axios'
 import FullCalendar from '@fullcalendar/react'
 import dayGridPlugin from '@fullcalendar/daygrid'
+import DesktopMenu from '../components/DesktopMenu'
 
 const baseUrl = import.meta.env.VITE_BASE_URL;
 
@@ -72,13 +73,16 @@ const Anniversary = () => {
   }
   return (
     <div className='anniversary page'>
-      <FullCalendar
-        plugins={[dayGridPlugin]}
-        initialView='dayGridMonth'
-        weekends={true}
-        events={events}
-        eventContent={renderEventContent}
-      />
+      <DesktopMenu />
+      <div className='anniversary-contents'>
+        <FullCalendar
+          plugins={[dayGridPlugin]}
+          initialView='dayGridMonth'
+          weekends={true}
+          events={events}
+          eventContent={renderEventContent}
+        />
+      </div>
     </div>
   )
 }

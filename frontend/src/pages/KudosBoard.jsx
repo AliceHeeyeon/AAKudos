@@ -1,5 +1,6 @@
 import {useState, useEffect} from 'react'
 import axios from 'axios'
+import DesktopMenu from '../components/DesktopMenu';
 
 const baseUrl = import.meta.env.VITE_BASE_URL;
 const KudosBoard = () => {
@@ -92,32 +93,56 @@ const KudosBoard = () => {
   }
 
   return (
-    <div className='kudos-board page'>
-      <div className='leaderboard'>
-        <h2>Kudos Leaderboard</h2>
-        <select value={filterType} onChange={(e) => setFilterType(e.target.value)}>
-          <option value={'monthly'}>Monthly</option>
-          <option value={'yearly'}>Yearly</option>
-        </select>
+    <div className='kudosboard page'>
+      <DesktopMenu />
+      <div className='kudosboard-contents'>
+        <div className='kudos-ranking'>
+          <h2>Kudos Leaderboard</h2>
+          <select value={filterType} onChange={(e) => setFilterType(e.target.value)}>
+            <option value={'monthly'}>Monthly</option>
+            <option value={'yearly'}>Yearly</option>
+          </select>
 
-        <ul>
-          {kudosRanking.length > 0 ? (
-            <ul>
-            {kudosRanking.map(([targetId, count]) => {
-              const { name, role } = findUserNameById(targetId);
-              return (
-                <li key={targetId}>
-                  {name} ({role}) received {count} Kudos
-                </li>
-              );
-            })}
-            </ul>
-          ) : (
-            <p>No data available for this period</p>
-          )}
-          
-        </ul>
+          <div className='kudos-ranking-box'>
+            {kudosRanking.length > 0 ? (
+              <ul>
+              {kudosRanking.map(([targetId, count], index) => {
+                const { name, role } = findUserNameById(targetId);
+                return (
+                  <li key={targetId}>
+                    {index + 1} {name} {role} {count} Kudos
+                  </li>
+                );
+              })}
+              </ul>
+            ) : (
+              <p>No data available for this period</p>
+            )}
+            
+          </div>
+        </div>
+
+        <div className='senders-ranking'>
+            <h3>Amazing Senders</h3>
+            <div className='senders-ranking-box'>
+              {sendersRanking.length > 0 ? (
+                <ul>
+                {sendersRanking.map(([targetId, count], index) => {
+                  const { name, role } = findUserNameById(targetId);
+                  return (
+                    <li key={targetId}>
+                      {index + 1} {name} {role} {count} Posts
+                    </li>
+                  );
+                })}
+                </ul>
+              ) : (
+                <p>No data available for this period</p>
+              )}
+            </div>
+        </div>
       </div>
+      
     </div>
   )
 }

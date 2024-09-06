@@ -1,9 +1,12 @@
-import React from 'react'
+import DesktopMenu from "../components/DesktopMenu"
 
 const Admin = () => {
   return (
-    <div>
-      Admin
+    <div className='admin page'>
+      <DesktopMenu />
+      <div className='admin-contents'>
+        Admin
+      </div>
     </div>
   )
 }
