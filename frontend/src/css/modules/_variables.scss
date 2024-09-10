@@ -1,13 +1,20 @@
 // Color
-$primary-blue : #0C335A;
-$primary-orange: #F38E2A;
-$background-color: #F2F2F2;
+$primary-blue: #0c335a;
+$primary-orange: #f38e2a;
+$background-color: #f2f2f2;
+$light-skyblue: #e5edf5;
 $dark-text-color: #091c2f;
 $gray-text-color: rgb(94, 93, 93);
 
 // Font-style
-$primary-font : "Maven Pro", sans-serif;
-$sub-font : "Ubuntu", sans-serif;
+$primary-font: "Maven Pro", sans-serif;
+$sub-font: "Ubuntu", sans-serif;
 
 // Font-size
-$mobile-text-size: 18px
+$mobile-text-size: 18px;
+
+// Mixins
+@mixin flex {
+  display: flex;
+  align-items: center;
+}

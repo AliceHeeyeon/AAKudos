@@ -1,11 +1,10 @@
 //components
-import DesktopMenu from "../components/DesktopMenu"
+import DesktopMenu from "../components/DesktopMenu";
 import KudosMessage from "../components/KudosMessage";
 import Announcement from "../components/Announcement";
 import Celebration from "../components/Celebration";
 
 const Home = () => {
-  
   return (
     <div className="home page">
       <DesktopMenu />
@@ -16,9 +15,8 @@ const Home = () => {
         </div>
         <KudosMessage />
       </div>
-
     </div>
-  )
-}
+  );
+};
 
-export default Home
+export default Home;

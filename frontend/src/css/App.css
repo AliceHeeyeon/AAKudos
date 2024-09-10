@@ -11,7 +11,7 @@ html {
 
 body {
   font-family: "Maven Pro", sans-serif;
-  background-color: #F2F2F2;
+  background-color: #f2f2f2;
 }
 
 .page {
@@ -22,48 +22,48 @@ body {
   cursor: pointer;
 }
 
-nav {
-  background-color: #0C335A;
+#nav {
+  background-color: #0c335a;
   padding: 15px 20px;
 }
-nav .nav-mobile {
+#nav .nav-mobile {
   display: flex;
   align-items: center;
   justify-content: space-between;
 }
-nav .nav-mobile .hamburger-menu-mobile .hamburger-react {
+#nav .nav-mobile .hamburger-menu-mobile .hamburger-react {
   color: white;
 }
-nav .nav-mobile .logo-box-mobile {
+#nav .nav-mobile .logo-box-mobile {
   margin: 0 auto;
 }
-nav .login-info {
+#nav .login-info {
   display: flex;
   align-items: center;
   color: white;
 }
-nav .login-info .user-info {
+#nav .login-info .user-info {
   padding-right: 20px;
   border-right: 1px solid white;
 }
-nav .login-info .user-info h4 {
+#nav .login-info .user-info h4 {
   font-size: 16px;
 }
-nav .login-info .user-info P {
+#nav .login-info .user-info P {
   font-size: 15px;
 }
-nav .login-info .logout-btn {
+#nav .login-info .logout-btn {
   font-size: 23px;
   padding-left: 20px;
 }
-nav .nav-desktop {
+#nav .nav-desktop {
   display: none;
 }
 
 .mobile-menu {
   position: absolute;
   z-index: 999;
-  background: #0C335A;
+  background: #0c335a;
   left: 0;
   padding: 0px 50px 25px;
   width: 100%;
@@ -99,7 +99,7 @@ nav .nav-desktop {
   align-items: center;
   padding-bottom: 20px;
   margin-bottom: 20px;
-  border-bottom: 1px solid #0C335A;
+  border-bottom: 1px solid #0c335a;
   font-size: 23px;
 }
 .announcement .title-box h5,
@@ -123,7 +123,7 @@ nav .nav-desktop {
 }
 
 .swiper-pagination-bullet-active {
-  background: #0C335A !important;
+  background: #0c335a !important;
 }
 
 .celebration-content {
@@ -142,21 +142,21 @@ nav .nav-desktop {
 }
 .recognition-feed .section-title {
   display: flex;
-  justify-content: space-between;
   align-items: center;
+  justify-content: space-between;
   margin-bottom: 20px;
 }
 .recognition-feed .section-title button {
   border: none;
   padding: 10px 20px;
-  background-color: #0C335A;
+  background-color: #0c335a;
   color: white;
   border-radius: 10px;
   font-size: 16px;
 }
 .recognition-feed .message-box {
   background-color: white;
-  border-top: 2px solid #0C335A;
+  border-top: 2px solid #0c335a;
   padding: 20px 30px;
 }
 .recognition-feed .message-box .message-name .name {
@@ -178,15 +178,57 @@ nav .nav-desktop {
   margin-bottom: 10px;
   font-size: 18px;
 }
+.recognition-feed .message-box .message-content p {
+  word-wrap: break-word;
+  overflow-wrap: break-word;
+  white-space: normal;
+}
 .recognition-feed .message-box .message-time {
   text-align: end;
   color: rgb(94, 93, 93);
   font-size: 15px;
 }
 
+.css-wjh20t-MuiPagination-ul {
+  display: flex;
+  justify-content: center;
+  padding: 15px 0px !important;
+}
+
+.css-c09uja-MuiPaper-root-MuiDialog-paper {
+  padding: 10px 15px 15px;
+}
+
+.css-15k6ek6-MuiSelect-select-MuiInputBase-input-MuiOutlinedInput-input.css-15k6ek6-MuiSelect-select-MuiInputBase-input-MuiOutlinedInput-input.css-15k6ek6-MuiSelect-select-MuiInputBase-input-MuiOutlinedInput-input {
+  min-width: 350px;
+}
+
+.css-2rvm5j-MuiInputBase-root-MuiInput-root {
+  margin-top: 30px;
+}
+
+.css-19kok5i-MuiDialogActions-root > :not(style) ~ :not(style) {
+  background-color: #0c335a;
+  color: white !important;
+  padding: 6px 20px;
+  border-radius: 10px;
+}
+
+.css-1apkmlw-MuiButtonBase-root-MuiButton-root {
+  color: #0c335a !important;
+}
+
+.error-messageinput {
+  color: red;
+  position: absolute;
+  bottom: 25px;
+  left: 40px;
+  width: 220px;
+}
+
 .signup,
 .login {
-  background-color: #0C335A;
+  background-color: #0c335a;
   text-align: center;
   color: white;
   padding-top: 60px;
@@ -205,7 +247,7 @@ nav .nav-desktop {
 }
 .signup .submit-btn-box button,
 .login .submit-btn-box button {
-  background-color: #F38E2A;
+  background-color: #f38e2a;
   border: none;
   width: 100%;
   padding: 16px;
@@ -223,7 +265,7 @@ nav .nav-desktop {
 .signup .link-to-login span,
 .login .link-to-login span {
   margin-left: 10px;
-  color: #F38E2A;
+  color: #f38e2a;
   font-weight: 500;
 }
 .signup .error-message,
@@ -231,7 +273,7 @@ nav .nav-desktop {
   text-align: left;
   margin-left: 80px;
   margin-top: 20px;
-  color: #F38E2A;
+  color: #f38e2a;
 }
 .signup .error-message .error,
 .login .error-message .error {
@@ -249,13 +291,207 @@ nav .nav-desktop {
   margin-bottom: 20px !important;
 }
 
+.kudos-board .kudos-board-contents {
+  padding-bottom: 30px;
+}
+.kudos-board .kudos-leaderboard {
+  background-color: white;
+  padding: 30px 40px;
+  margin: 30px 40px;
+  border-radius: 10px;
+}
+.kudos-board .kudos-leaderboard h2 {
+  margin-bottom: 20px;
+  display: flex;
+  align-items: end;
+}
+.kudos-board .kudos-leaderboard h2 svg {
+  font-size: 40px;
+  margin-right: 10px;
+}
+.kudos-board .kudos-leaderboard-list {
+  margin-top: 20px;
+}
+.kudos-board .kudos-leaderboard-list .leaderboard-item {
+  display: flex;
+  align-items: center;
+  margin-bottom: 20px;
+  background-color: #e5edf5;
+  border-radius: 10px;
+  text-align: center;
+}
+.kudos-board .kudos-leaderboard-list .leaderboard-item .leaderboard-rank {
+  flex: 0.9;
+  font-size: 17px;
+  padding: 20px 10px;
+}
+.kudos-board .kudos-leaderboard-list .leaderboard-item .leaderboard-rank svg {
+  font-size: 35px;
+}
+.kudos-board .kudos-leaderboard-list .leaderboard-item .leaderboard-name {
+  border-right: 2px solid white;
+  border-left: 2px solid white;
+  flex: 2.5;
+  text-align: left;
+  display: flex;
+  flex-direction: column;
+  font-weight: 500;
+  font-size: 18px;
+  padding: 20px 10px 20px 25px;
+}
+.kudos-board .kudos-leaderboard-list .leaderboard-item .leaderboard-name span {
+  color: rgb(94, 93, 93);
+  font-weight: 400;
+  font-size: 16px;
+}
+.kudos-board .kudos-leaderboard-list .leaderboard-item .leaderboard-kudos-count {
+  font-weight: 500;
+  flex: 1;
+  font-size: 15px;
+  padding: 20px 10px;
+}
+.kudos-board .senders-leaderboard {
+  margin: 35px 40px;
+  background-color: white;
+  padding: 30px 40px;
+  border-radius: 10px;
+}
+.kudos-board .senders-leaderboard h3 {
+  font-size: 24px;
+  font-weight: 500;
+  border-bottom: 1px solid black;
+  padding-bottom: 30px;
+  display: flex;
+  align-items: end;
+}
+.kudos-board .senders-leaderboard h3 svg {
+  font-size: 40px;
+  margin-right: 10px;
+}
+.kudos-board .senders-leaderboard .senders-leaderboard-list {
+  margin: 30px 0px;
+}
+.kudos-board .senders-leaderboard .senders-leaderboard-list .senders-item {
+  display: flex;
+  align-items: center;
+  margin-bottom: 20px;
+}
+.kudos-board .senders-leaderboard .senders-leaderboard-list .senders-item .senders-rank {
+  background-color: #e5edf5;
+  width: 40px;
+  height: 40px;
+  border-radius: 100px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: 400;
+}
+.kudos-board .senders-leaderboard .senders-leaderboard-list .senders-item .senders-name {
+  display: flex;
+  flex-direction: column;
+  flex: 2;
+  margin-left: 30px;
+  font-size: 18px;
+}
+.kudos-board .senders-leaderboard .senders-leaderboard-list .senders-item .senders-name span {
+  font-size: 16px;
+  color: rgb(94, 93, 93);
+}
+.kudos-board .senders-leaderboard .senders-leaderboard-list .senders-item .senders-post {
+  flex: 1;
+}
+
+.admin-page {
+  padding-bottom: 30px;
+}
+.admin-page h3 {
+  font-size: 22px;
+}
+.admin-page .admin-announcement-section {
+  background-color: white;
+  margin: 30px;
+  padding: 20px 30px;
+  border-radius: 10px;
+}
+.admin-page .admin-announcement-section .admin-announcement-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 25px;
+}
+.admin-page .admin-announcement-section .admin-announcement-header button {
+  background-color: #0c335a;
+  color: white;
+  border-radius: 10px;
+  padding: 8px 15px;
+  font-size: 14px;
+}
+.admin-page .admin-announcement-section .admin-announcement-item {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 10px;
+  padding-bottom: 10px;
+  border-bottom: 1px solid rgb(163, 162, 162);
+}
+.admin-page .admin-announcement-section .admin-announcement-item .admin-action-delete {
+  margin-right: 10px;
+}
+.admin-page .admin-team-section {
+  background-color: white;
+  margin: 30px;
+  border-radius: 10px;
+  padding: 30px;
+}
+.admin-page .admin-team-section .admin-team-filter {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin: 20px 0px 15px;
+  font-size: 17px;
+}
+.admin-page .admin-team-section .admin-team-filter .admin-team-filter-icons {
+  display: flex;
+  align-items: center;
+  font-size: 25px;
+  gap: 10px;
+}
+.admin-page .admin-team-section .admin-team-table-container {
+  border: 1px solid #e0e0e0;
+  border-top-left-radius: 10px;
+  border-top-right-radius: 10px;
+  border-bottom-left-radius: 10px;
+  border-bottom-right-radius: 10px;
+}
+.admin-page .admin-team-section .admin-team-table-header,
+.admin-page .admin-team-section .admin-team-item {
+  display: grid;
+  grid-template-columns: 1fr 2fr 1fr 1fr 50px;
+  gap: 10px;
+  align-items: center;
+}
+.admin-page .admin-team-section .admin-team-table-header {
+  font-weight: 500;
+  background-color: #e5edf5;
+  padding: 13px;
+  border-top-left-radius: 10px;
+  border-top-right-radius: 10px;
+}
+.admin-page .admin-team-section .admin-team-item {
+  padding: 13px;
+  border-bottom: 1px solid #e0e0e0;
+}
+.admin-page .admin-team-section .admin-action-delete {
+  text-align: center;
+}
+
 footer {
   position: fixed;
   height: auto;
   width: 100%;
   bottom: 0;
   left: 0;
-  background-color: #0C335A;
+  background-color: #0c335a;
   color: white;
 }
 footer .footer-logo-box {
