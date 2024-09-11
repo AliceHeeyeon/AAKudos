@@ -200,6 +200,7 @@ body {
 
 //MessageInput component
 //modal box
+
 .css-c09uja-MuiPaper-root-MuiDialog-paper {
   padding: 10px 15px 15px;
 }
@@ -233,6 +234,8 @@ body {
   left: 40px;
   width: 220px;
 }
+
+//Admin
 
 // Signup
 .signup,
@@ -496,6 +499,13 @@ body {
       text-align: center;
     }
   }
+}
+
+.error-announcementInput {
+  color: red;
+  position: absolute;
+  left: 40px;
+  bottom: 60px;
 }
 
 // Footer

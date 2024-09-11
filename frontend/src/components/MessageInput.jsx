@@ -67,7 +67,7 @@ const MessageInput = ({ open, setOpen }) => {
   }, [status, setOpen]);
 
   return (
-    <div className="modal-message">
+    <div id="modal-message">
       <Dialog open={open} onClose={handleClose}>
         <DialogContent>
           <InputLabel id="demo-simple-select-helper-label">

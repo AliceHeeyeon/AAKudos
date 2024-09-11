@@ -485,6 +485,13 @@ body {
   text-align: center;
 }
 
+.error-announcementInput {
+  color: red;
+  position: absolute;
+  left: 40px;
+  bottom: 60px;
+}
+
 footer {
   position: fixed;
   height: auto;

@@ -2,6 +2,7 @@ import { HashRouter, Routes, Route } from "react-router-dom";
 import { useEffect } from "react";
 import { useDispatch } from "react-redux";
 import { getUsers } from "./redux/thunks/userThunk";
+import { getAnnouncement } from "./redux/thunks/announcementThunk";
 import "./css/App.css";
 
 //pages
@@ -17,14 +18,16 @@ import MyAccount from "./pages/MyAccount";
 //components
 import Navbar from "./components/Navbar";
 import Footer from "./components/Footer";
+import announcementSlice from "./redux/slices/announcementSlice";
 
 function App() {
   const dispatch = useDispatch();
   useEffect(() => {
-    const fetchUsers = async () => {
+    const fetchData = async () => {
       dispatch(getUsers());
+      //dispatch(getAnnouncement());
     };
-    fetchUsers();
+    fetchData();
   }, []);
 
   return (
