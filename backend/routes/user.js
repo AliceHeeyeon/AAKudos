@@ -9,6 +9,7 @@ import {
   editUser,
   login,
   changePassword,
+  changePermissionOfUser,
 } from "../controllers/userController.js";
 
 //GET all users
@@ -23,6 +24,8 @@ router.post("/login", login);
 router.delete("/:Id/deleteuser", deleteUser);
 //UPDATE user
 router.patch("/:Id/edituser", editUser);
+//UPDATE permission of user
+router.patch("/:Id/changepermission", changePermissionOfUser);
 //UPDATE user password
 router.patch("/:Id/changepassword", changePassword);
 

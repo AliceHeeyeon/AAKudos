@@ -2,7 +2,7 @@ import { HashRouter, Routes, Route } from "react-router-dom";
 import { useEffect } from "react";
 import { useDispatch } from "react-redux";
 import { getUsers } from "./redux/thunks/userThunk";
-import { getAnnouncement } from "./redux/thunks/announcementThunk";
+import { loginUserInfo } from "./redux/thunks/userThunk";
 import "./css/App.css";
 
 //pages
@@ -25,7 +25,7 @@ function App() {
   useEffect(() => {
     const fetchData = async () => {
       dispatch(getUsers());
-      //dispatch(getAnnouncement());
+      dispatch(loginUserInfo());
     };
     fetchData();
   }, []);

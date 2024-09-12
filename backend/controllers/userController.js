@@ -203,6 +203,29 @@ export async function editUser(req, res) {
   }
 }
 
+// CHANGE USER's Permission
+export async function changePermissionOfUser(req, res) {
+  const { Id } = req.params;
+  const { Permission } = req.body;
+  try {
+    const pool = await sql.connect(config);
+
+    let request = pool.request();
+    await request
+      .input("Id", sql.Int, Id)
+      .input("Permission", sql.Bit, Permission)
+      .query("UPDATE [User] SET Permission = @Permission WHERE Id = @Id");
+
+    const result = await request.query(`SELECT * FROM [User] WHERE Id = @Id`);
+    const updatedUserInfo = result.recordset[0];
+
+    res.status(200).json(updatedUserInfo);
+  } catch (error) {
+    console.error("Error updating the user info :", error);
+    res.status(500).json({ error: "Internal Server Error" });
+  }
+}
+
 //CHANGE Password
 export async function changePassword(req, res) {
   const { Id } = req.params;

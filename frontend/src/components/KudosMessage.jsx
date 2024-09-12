@@ -63,14 +63,14 @@ const KudosMessage = () => {
   };
 
   return (
-    <div className="recognition-feed">
+    <div className="recognition-feed-component">
       <div className="section-title">
         <h3>Recognition Feed</h3>
         <button onClick={handleModalOpen}>Add a New</button>
       </div>
       {open && <MessageInput open={open} setOpen={setOpen} />}
 
-      <div>
+      <div className="message-container">
         {paginatedMessage.map((msg) => (
           <div key={msg.Id} className="recognition-list">
             <div className="message-box">
@@ -90,14 +90,14 @@ const KudosMessage = () => {
             </div>
           </div>
         ))}
+        <Stack id="feed-pagination" spacing={2}>
+          <Pagination
+            count={Math.ceil(kudosMessages.length / messagePerPage)}
+            page={page}
+            onChange={handlePageChange}
+          />
+        </Stack>
       </div>
-      <Stack id="feed-pagination" spacing={2}>
-        <Pagination
-          count={Math.ceil(kudosMessages.length / messagePerPage)}
-          page={page}
-          onChange={handlePageChange}
-        />
-      </Stack>
     </div>
   );
 };

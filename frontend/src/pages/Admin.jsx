@@ -5,7 +5,7 @@ import {
   getAnnouncement,
   addAnnouncement,
 } from "../redux/thunks/announcementThunk";
-import { deletUser } from "../redux/thunks/userThunk";
+import { deletUser, changeUserPermisson } from "../redux/thunks/userThunk";
 import DesktopMenu from "../components/DesktopMenu";
 
 //MUI Alert
@@ -16,13 +16,19 @@ import DialogContent from "@mui/material/DialogContent";
 import DialogContentText from "@mui/material/DialogContentText";
 import DialogTitle from "@mui/material/DialogTitle";
 import TextField from "@mui/material/TextField";
+import MenuItem from "@mui/material/MenuItem";
+import FormControl from "@mui/material/FormControl";
+import { Select } from "@mui/material";
+import Alert from "@mui/material/Alert";
+import AlertTitle from "@mui/material/AlertTitle";
+import Stack from "@mui/material/Stack";
+
 //Icons
 import { FaTrashCan } from "react-icons/fa6";
-import { IoSearch } from "react-icons/io5";
-import { IoFilter } from "react-icons/io5";
 
 const Admin = () => {
   const users = useSelector((state) => state.user.list);
+  const updateStatus = useSelector((state) => state.user.status);
   const dispatch = useDispatch();
   const [formData, setFormData] = useState({
     AuthorId: "",
@@ -38,6 +44,12 @@ const Admin = () => {
   const announcementsList = useSelector((state) => state.announcement.list);
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState(null);
+
+  //User search and filter
+  const [searchTerm, setSearchTerm] = useState("");
+  const [roleFilter, setRoleFilter] = useState("");
+  const [permissions, setPermissions] = useState({});
+  const [showAlert, setShowAlert] = useState("");
 
   useEffect(() => {
     dispatch(getAnnouncement());
@@ -94,7 +106,7 @@ const Admin = () => {
     setError(null);
   };
 
-  const handleDelete = () => {
+  const handleDeleteUser = () => {
     setOpen(false);
     dispatch(deletUser(selectedUser.Id));
   };
@@ -105,14 +117,45 @@ const Admin = () => {
     });
   };
 
+  const handleChangeUserPermission = (id) => {
+    const userPermission = permissions[id];
+    dispatch(
+      changeUserPermisson({
+        Id: id,
+        Permission: userPermission === "1",
+      })
+    );
+    console.log(updateStatus);
+
+    if (updateStatus === "success") {
+      setShowAlert(true);
+      setTimeout(() => {
+        setShowAlert(false);
+      }, 2000);
+    }
+  };
+
+  const handlePermissionChange = (id, value) => {
+    setPermissions((prevPermissions) => ({
+      ...prevPermissions,
+      [id]: value,
+    }));
+  };
+
   useEffect(() => {
     if (users.length > 0) {
       [...users].sort((a, b) => a.Name.localeCompare(b.Name));
     }
   }, [users]);
 
+  const filteredUsers = users
+    .filter((user) =>
+      user.Name.toLowerCase().includes(searchTerm.toLocaleLowerCase())
+    )
+    .filter((user) => (roleFilter ? user.Role === roleFilter : true));
+
   return (
-    <div className="admin-page">
+    <div className="admin page">
       <DesktopMenu />
       <div className="admin-contents">
         {/* Announcement Section (Admin only) */}
@@ -172,14 +215,33 @@ const Admin = () => {
 
           {/* Filter Section */}
           <div className="admin-team-filter">
-            <p>Filter by: </p>
-            <div className="admin-team-filter-icons">
-              <p>
-                <IoSearch />
-              </p>
-              <p>
-                <IoFilter />
-              </p>
+            <div className="admin-team-search">
+              <TextField
+                size="small"
+                placeholder="Search by Name"
+                value={searchTerm}
+                onChange={(e) => setSearchTerm(e.target.value)}
+              />
+            </div>
+
+            <div className="admin-team-role-filter">
+              <Select
+                value={roleFilter}
+                onChange={(e) => setRoleFilter(e.target.value)}
+                displayEmpty
+                size="small"
+              >
+                <MenuItem value="">All Roles</MenuItem>
+                <MenuItem value="Sales">Sales</MenuItem>
+                <MenuItem value="Tech">Tech</MenuItem>
+                <MenuItem value="Administrator">Administrator</MenuItem>
+                <MenuItem value="Designer">Designer</MenuItem>
+                <MenuItem value="Operation Administrator">
+                  Operation Administrator
+                </MenuItem>
+                <MenuItem value="Project Manager">Project Manager</MenuItem>
+                <MenuItem value="Dispatch">Dispatch</MenuItem>
+              </Select>
             </div>
           </div>
 
@@ -194,13 +256,31 @@ const Admin = () => {
             </div>
 
             {/* Team List */}
-            {users.map((user) => (
+            {filteredUsers.map((user) => (
               <div key={user.Id} className="admin-team-item">
                 <div className="admin-team-name">{user.Name}</div>
                 <div className="admin-team-email">{user.Email}</div>
                 <div className="admin-team-role">{user.Role}</div>
-                <div className="admin-team-permission">{user.Permission}</div>
-                <div className="admin-action-delete">
+                <div className="admin-team-permission">
+                  <FormControl id="permission-selector" fullWidth>
+                    <Select
+                      value={
+                        permissions[user.Id] || (user.Permission ? "1" : "0")
+                      }
+                      onChange={(e) =>
+                        handlePermissionChange(user.Id, e.target.value)
+                      }
+                      size="small"
+                    >
+                      <MenuItem value="1">Admin</MenuItem>
+                      <MenuItem value="0">Member</MenuItem>
+                    </Select>
+                  </FormControl>
+                </div>
+                <div className="admin-action">
+                  <button onClick={() => handleChangeUserPermission(user.Id)}>
+                    SAVE
+                  </button>
                   <FaTrashCan
                     onClick={() => handleClickOpen(user.Id, user.Name)}
                   />
@@ -208,6 +288,14 @@ const Admin = () => {
               </div>
             ))}
           </div>
+          {showAlert && (
+            <Stack id="success-alert" sx={{ width: "100%" }} spacing={2}>
+              <Alert variant="filled" severity="success">
+                <AlertTitle>Success</AlertTitle>
+                Permission updated successfully!
+              </Alert>
+            </Stack>
+          )}
         </div>
       </div>
       {/* Alert popup */}
@@ -232,7 +320,7 @@ const Admin = () => {
             </DialogContent>
             <DialogActions>
               <Button onClick={handleClose}>Cancel</Button>
-              <Button onClick={handleDelete}>Delete</Button>
+              <Button onClick={handleDeleteUser}>Delete</Button>
             </DialogActions>
           </Dialog>
         </>

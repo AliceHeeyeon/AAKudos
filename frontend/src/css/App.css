@@ -18,7 +18,8 @@ body {
   height: 100vh;
 }
 
-.cursor-pointer {
+.cursor-pointer,
+button {
   cursor: pointer;
 }
 
@@ -137,16 +138,16 @@ body {
   color: rgb(94, 93, 93);
 }
 
-.recognition-feed {
+.recognition-feed-component {
   padding: 20px 30px;
 }
-.recognition-feed .section-title {
+.recognition-feed-component .section-title {
   display: flex;
   align-items: center;
   justify-content: space-between;
   margin-bottom: 20px;
 }
-.recognition-feed .section-title button {
+.recognition-feed-component .section-title button {
   border: none;
   padding: 10px 20px;
   background-color: #0c335a;
@@ -154,36 +155,36 @@ body {
   border-radius: 10px;
   font-size: 16px;
 }
-.recognition-feed .message-box {
+.recognition-feed-component .message-box {
   background-color: white;
   border-top: 2px solid #0c335a;
   padding: 20px 30px;
 }
-.recognition-feed .message-box .message-name .name {
+.recognition-feed-component .message-box .message-name .name {
   display: flex;
   align-items: center;
   margin-bottom: 10px;
   font-size: 18px;
 }
-.recognition-feed .message-box .message-name .name .author {
+.recognition-feed-component .message-box .message-name .name .author {
   font-weight: 500;
   margin-right: 10px;
 }
-.recognition-feed .message-box .message-name .name .target {
+.recognition-feed-component .message-box .message-name .name .target {
   color: #06417c;
   font-weight: 500;
   margin-left: 10px;
 }
-.recognition-feed .message-box .message-content {
+.recognition-feed-component .message-box .message-content {
   margin-bottom: 10px;
   font-size: 18px;
 }
-.recognition-feed .message-box .message-content p {
+.recognition-feed-component .message-box .message-content p {
   word-wrap: break-word;
   overflow-wrap: break-word;
   white-space: normal;
 }
-.recognition-feed .message-box .message-time {
+.recognition-feed-component .message-box .message-time {
   text-align: end;
   color: rgb(94, 93, 93);
   font-size: 15px;
@@ -224,6 +225,14 @@ body {
   bottom: 25px;
   left: 40px;
   width: 220px;
+}
+
+.salesRanking {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+}
+.salesRanking li {
+  list-style: none;
 }
 
 .signup,
@@ -401,32 +410,32 @@ body {
   flex: 1;
 }
 
-.admin-page {
+.admin {
   padding-bottom: 30px;
 }
-.admin-page h3 {
+.admin h3 {
   font-size: 22px;
 }
-.admin-page .admin-announcement-section {
+.admin .admin-announcement-section {
   background-color: white;
   margin: 30px;
   padding: 20px 30px;
   border-radius: 10px;
 }
-.admin-page .admin-announcement-section .admin-announcement-header {
+.admin .admin-announcement-section .admin-announcement-header {
   display: flex;
   align-items: center;
   justify-content: space-between;
   margin-bottom: 25px;
 }
-.admin-page .admin-announcement-section .admin-announcement-header button {
+.admin .admin-announcement-section .admin-announcement-header button {
   background-color: #0c335a;
   color: white;
   border-radius: 10px;
   padding: 8px 15px;
   font-size: 14px;
 }
-.admin-page .admin-announcement-section .admin-announcement-item {
+.admin .admin-announcement-section .admin-announcement-item {
   display: flex;
   align-items: center;
   justify-content: space-between;
@@ -434,55 +443,101 @@ body {
   padding-bottom: 10px;
   border-bottom: 1px solid rgb(163, 162, 162);
 }
-.admin-page .admin-announcement-section .admin-announcement-item .admin-action-delete {
+.admin .admin-announcement-section .admin-announcement-item .admin-action-delete {
   margin-right: 10px;
 }
-.admin-page .admin-team-section {
+.admin .admin-team-section {
+  position: relative;
   background-color: white;
   margin: 30px;
   border-radius: 10px;
   padding: 30px;
 }
-.admin-page .admin-team-section .admin-team-filter {
+.admin .admin-team-section .admin-team-filter {
   display: flex;
   align-items: center;
   justify-content: space-between;
   margin: 20px 0px 15px;
   font-size: 17px;
 }
-.admin-page .admin-team-section .admin-team-filter .admin-team-filter-icons {
+.admin .admin-team-section .admin-team-filter .admin-team-filter-icons {
   display: flex;
   align-items: center;
   font-size: 25px;
   gap: 10px;
 }
-.admin-page .admin-team-section .admin-team-table-container {
+.admin .admin-team-section .admin-team-table-container {
   border: 1px solid #e0e0e0;
   border-top-left-radius: 10px;
   border-top-right-radius: 10px;
   border-bottom-left-radius: 10px;
   border-bottom-right-radius: 10px;
 }
-.admin-page .admin-team-section .admin-team-table-header,
-.admin-page .admin-team-section .admin-team-item {
+.admin .admin-team-section .admin-team-table-header,
+.admin .admin-team-section .admin-team-item {
   display: grid;
-  grid-template-columns: 1fr 2fr 1fr 1fr 50px;
+  grid-template-columns: 1fr 2fr 1fr 1fr 100px;
   gap: 10px;
   align-items: center;
 }
-.admin-page .admin-team-section .admin-team-table-header {
+.admin .admin-team-section .admin-team-table-header {
   font-weight: 500;
   background-color: #e5edf5;
   padding: 13px;
   border-top-left-radius: 10px;
   border-top-right-radius: 10px;
 }
-.admin-page .admin-team-section .admin-team-item {
+.admin .admin-team-section .admin-team-item {
   padding: 13px;
   border-bottom: 1px solid #e0e0e0;
 }
-.admin-page .admin-team-section .admin-action-delete {
+.admin .admin-team-section .admin-action {
   text-align: center;
+  display: flex;
+  align-items: center;
+  font-size: 19px;
+}
+.admin .admin-team-section .admin-action button {
+  border: none;
+  background-color: white;
+  color: #0c335a;
+  padding: 5px 10px;
+  border-radius: 5px;
+  margin-right: 3px;
+  font-weight: 500;
+}
+.admin #success-alert {
+  position: absolute !important;
+  top: 0 !important;
+  left: 0 !important;
+}
+
+.myaccount-contents {
+  margin: 30px 40px;
+  background-color: white;
+  padding: 35px 40px 50px;
+  border-radius: 10px;
+}
+.myaccount-contents h2 {
+  margin-bottom: 15px;
+  padding-bottom: 20px;
+  border-bottom: 1px solid rgb(165, 164, 164);
+}
+.myaccount-contents .align-button-right {
+  display: flex;
+  justify-content: flex-end;
+}
+.myaccount-contents .myaccount-title-password {
+  margin-top: 50px;
+}
+.myaccount-contents .form-button-style {
+  margin-top: 20px;
+  padding: 8px 25px;
+  background-color: #0c335a;
+  color: white;
+}
+.myaccount-contents .updatePasswordBtn {
+  background-color: #f38e2a;
 }
 
 .error-announcementInput {
@@ -523,13 +578,9 @@ footer .copyright {
 }
 
 @media screen and (min-width: 992px) {
-  .home,
-  .kudosboard,
-  .saleschart,
-  .anniversary,
-  .admin,
-  .myaccount {
+  .page {
     display: flex;
+    height: 100%;
   }
   .home-contents,
   .kudosboard-contents,
@@ -539,47 +590,51 @@ footer .copyright {
   .myaccount-contents {
     flex: 1;
     margin: 20px 30px;
+    overflow: hidden;
   }
-  nav {
+  .kudos-board {
+    height: 100vh;
+  }
+  #nav {
     padding: 20px 50px;
   }
-  nav .nav-mobile {
+  #nav .nav-mobile {
     display: none;
   }
-  nav .login-info {
+  #nav .login-info {
     display: flex;
     align-items: center;
     color: white;
   }
-  nav .login-info .user-info {
+  #nav .login-info .user-info {
     padding-right: 30px;
     border-right: 1px solid white;
   }
-  nav .login-info .user-info h4 {
+  #nav .login-info .user-info h4 {
     font-size: 20px;
   }
-  nav .login-info .user-info P {
+  #nav .login-info .user-info P {
     font-size: 18px;
   }
-  nav .login-info .logout-btn {
+  #nav .login-info .logout-btn {
     font-size: 26px;
     padding-left: 30px;
   }
-  nav .nav-desktop {
+  #nav .nav-desktop {
     display: flex;
     justify-content: space-between;
   }
-  nav .nav-desktop img {
+  #nav .nav-desktop img {
     width: 200px;
   }
-  nav .nav-desktop .logo-box-desktop {
+  #nav .nav-desktop .logo-box-desktop {
     font-family: "Ubuntu", sans-serif;
     display: flex;
     color: white;
     align-items: flex-end;
     font-size: 22px;
   }
-  nav .nav-desktop .logo-box-desktop .logo-text-desktop {
+  #nav .nav-desktop .logo-box-desktop .logo-text-desktop {
     margin-left: 10px;
   }
   .desktop-menu {
@@ -588,7 +643,6 @@ footer .copyright {
     width: 300px;
     background-color: white;
     color: #091c2f;
-    height: 100vh;
     margin-left: 50px;
     padding: 30px;
   }
@@ -602,6 +656,13 @@ footer .copyright {
   .desktop-menu li p {
     margin-left: 20px;
   }
+  .salesRanking {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+  }
+  .salesRanking li {
+    list-style: none;
+  }
   .signup,
   .login {
     display: flex;
@@ -614,21 +675,25 @@ footer .copyright {
   .login {
     padding-top: 100px;
   }
-  .kudosboard-contents {
+  .kudos-board-contents {
     display: flex;
-    gap: 20px;
+    width: 100%;
   }
-  .kudosboard-contents .kudos-ranking {
-    flex: 2.5;
-    background-color: white;
-    border-radius: 10px;
+  .kudos-board-contents .kudos-leaderboard {
+    flex: 2;
     padding: 40px;
   }
-  .kudosboard-contents .senders-ranking {
+  .kudos-board-contents .senders-leaderboard {
     flex: 1;
-    background-color: white;
-    border-radius: 10px;
-    padding: 20px;
+    padding: 40px;
+    margin: 30px 40px 30px 0px;
+  }
+  .admin-team-table-header,
+  .admin-team-item {
+    gap: 30px;
+  }
+  #permission-selector {
+    width: 120px !important;
   }
   footer {
     display: none;
