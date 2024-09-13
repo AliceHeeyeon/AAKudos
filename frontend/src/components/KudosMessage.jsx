@@ -11,7 +11,7 @@ const KudosMessage = () => {
   const [open, setOpen] = useState(false);
   const [page, setPage] = useState(1);
   const messagePerPage = 5;
-  const users = useSelector((state) => state.user.list);
+  const users = useSelector((state) => state.user.allList);
 
   useEffect(() => {
     const fetchMessages = async () => {

@@ -23,6 +23,10 @@ button {
   cursor: pointer;
 }
 
+.error {
+  color: red;
+}
+
 #nav {
   background-color: #0c335a;
   padding: 15px 20px;
@@ -641,6 +645,7 @@ footer .copyright {
     display: grid;
     grid-template-rows: 1fr 265px;
     width: 300px;
+    min-height: 100vh;
     background-color: white;
     color: #091c2f;
     margin-left: 50px;

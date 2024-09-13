@@ -1,4 +1,5 @@
 import { useState, useEffect } from "react";
+import { useSelector } from "react-redux";
 import axios from "axios";
 import DesktopMenu from "../components/DesktopMenu";
 import MenuItem from "@mui/material/MenuItem";
@@ -12,8 +13,9 @@ import WorkspacePremiumIcon from "@mui/icons-material/WorkspacePremium";
 
 const baseUrl = import.meta.env.VITE_BASE_URL;
 const KudosBoard = () => {
+  const users = useSelector((state) => state.user.allList);
   const [kudosMessages, setKudosMessages] = useState([]);
-  const [users, setUsers] = useState([]);
+  //const [users, setUsers] = useState([]);
   const [kudosRanking, setKudosRanking] = useState([]);
   const [sendersRanking, setSendersRanking] = useState([]);
   const [filterType, setFilterType] = useState("monthly");
@@ -22,10 +24,10 @@ const KudosBoard = () => {
     const fetchKudosMessage = async () => {
       try {
         const messageResponse = await axios.get(`${baseUrl}/api/message`);
-        const userResponse = await axios.get(`${baseUrl}/api/user`);
+        //const userResponse = await axios.get(`${baseUrl}/api/user`);
 
         setKudosMessages(messageResponse.data[0]);
-        setUsers(userResponse.data[0]);
+        //setUsers(userResponse.data[0]);
       } catch (err) {
         console.error(err);
       }

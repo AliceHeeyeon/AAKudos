@@ -25,7 +25,20 @@ function generateToken(user) {
   });
 }
 
-// GET ALL USERS
+//GET ALL USERS INCLUDE DELETED STAFFS
+export async function getUsersIncludeAll(req, res) {
+  try {
+    const pool = await sql.connect(config);
+    const request = pool.request();
+    const result = await request.query("SELECT * FROM [User]");
+    res.status(200).json(result.recordsets);
+  } catch (err) {
+    console.error("Error querying data: ", err);
+    res.status(500).send("Error querying data");
+  }
+}
+
+// GET ALL AVAILABLE USERS
 export async function getUsers(req, res) {
   try {
     const pool = await sql.connect(config);

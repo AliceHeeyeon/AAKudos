@@ -28,10 +28,11 @@ import { FaTrashCan } from "react-icons/fa6";
 
 const Admin = () => {
   const users = useSelector((state) => state.user.list);
+  const author = useSelector((state) => state.user.loginUser[0]);
   const updateStatus = useSelector((state) => state.user.status);
   const dispatch = useDispatch();
   const [formData, setFormData] = useState({
-    AuthorId: "",
+    AuthorId: author.Id,
     Text: "",
   });
   const [announcements, setAnnouncements] = useState([]);
@@ -58,12 +59,6 @@ const Admin = () => {
   useEffect(() => {
     setAnnouncements(announcementsList);
   }, [announcementsList]);
-
-  useEffect(() => {
-    const authorString = localStorage.getItem("user");
-    const author = JSON.parse(authorString);
-    setFormData({ ...formData, ["AuthorId"]: author.user[0].Id });
-  }, []);
 
   const handleChange = (name, value) => {
     setFormData({

@@ -1,6 +1,9 @@
 import { useState, useEffect } from "react";
 import DesktopMenu from "../components/DesktopMenu";
-import { useSelector } from "react-redux";
+import { useSelector, useDispatch } from "react-redux";
+import { getUpdatedUserInfo } from "../redux/thunks/userThunk";
+import { editUser, changePassword } from "../redux/thunks/userThunk";
+import { resetStatus } from "../redux/slices/userSlice";
 import {
   TextField,
   Select,
@@ -8,23 +11,65 @@ import {
   Button,
   FormControl,
   InputLabel,
+  CircularProgress,
 } from "@mui/material";
+import { Visibility, VisibilityOff } from "@mui/icons-material";
+import OutlinedInput from "@mui/material/OutlinedInput";
+import InputAdornment from "@mui/material/InputAdornment";
+import IconButton from "@mui/material/IconButton";
 
 const MyAccount = () => {
+  const user = useSelector((state) => state.user.loginUser[0]);
+  const userId = user.Id;
+  const dispatch = useDispatch();
+  const [loading, setLoading] = useState(true);
   const [profile, setProfile] = useState({
-    email: "user@example.com",
-    fullName: "John Doe",
-    role: "Tech",
-    dateOfEmployment: "2022-01-01",
-    dateOfBirth: "1990-06-15",
+    email: "",
+    fullName: "",
+    role: "",
+    dateOfEmployment: "",
+    dateOfBirth: "",
   });
   const [password, setPassword] = useState({
     current: "",
     new: "",
   });
+  const [showPassword, setShowPassword] = useState(false);
+  const [error, setError] = useState(null);
+  const { status, message } = useSelector((state) => state.user);
+  console.log(status, message);
 
-  const loginUser = useSelector((state) => state.user.loginUser);
-  console.log(loginUser);
+  const handleClickShowPassword = () => setShowPassword(!showPassword);
+
+  const preventDefault = (e) => {
+    e.preventDefault();
+  };
+
+  useEffect(() => {
+    if (user?.Id) {
+      dispatch(getUpdatedUserInfo(user.Id));
+    }
+  }, [dispatch, user?.Id]);
+
+  useEffect(() => {
+    const formatDate = (date) => {
+      const targetDate = new Date(date);
+      const year = targetDate.getFullYear();
+      const month = (targetDate.getMonth() + 1).toString().padStart(2, "0");
+      const day = targetDate.getDate().toString().padStart(2, "0");
+      return `${year}-${month}-${day}`;
+    };
+
+    setProfile({
+      email: user.Email || "",
+      fullName: user.Name || "",
+      role: user.Role || "",
+      dateOfEmployment: formatDate(user.JoinDate) || "",
+      dateOfBirth: formatDate(user.DOB) || "",
+    });
+
+    setLoading(false);
+  }, [user]);
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -34,10 +79,53 @@ const MyAccount = () => {
     });
   };
 
-  const handleSubmit = () => {
-    console.log("Updated profile:", profile);
+  const handleChangePassword = (e) => {
+    const { name, value } = e.target;
+    setPassword({
+      ...password,
+      [name]: value,
+    });
   };
 
+  const handleSubmit = () => {
+    dispatch(editUser({ userId, profile }));
+    console.log("Updated profile:", userId, profile);
+  };
+
+  const handleChangePasswordSubmit = () => {
+    if (password.new.length < 6) {
+      setError("Password must be at least 6 characters");
+      return;
+    }
+    console.log(status);
+    dispatch(changePassword({ userId, password }));
+  };
+
+  const clearError = () => {
+    setError("");
+    dispatch(resetStatus());
+  };
+
+  useEffect(() => {
+    if (status === "error") {
+      setError(message);
+    } else if (status === "success") {
+      setError("");
+    }
+  }, [status, message]);
+
+  useEffect(() => {
+    dispatch(resetStatus());
+    setError("");
+  }, []);
+
+  if (loading) {
+    return (
+      <div className="loading-spinner">
+        <CircularProgress />
+      </div>
+    );
+  }
   return (
     <div className="myaccount page">
       <DesktopMenu />
@@ -129,32 +217,67 @@ const MyAccount = () => {
         <form>
           {/* Current Password */}
           <FormControl fullWidth margin="normal">
-            <TextField
-              label="Current Password"
-              name="current-password"
+            <InputLabel htmlFor="current-password">Current Password</InputLabel>
+            <OutlinedInput
+              id="current-password"
+              name="current"
+              type={showPassword ? "text" : "password"}
               value={password.current}
-              onChange={handleChange}
-              fullWidth
+              onChange={handleChangePassword}
+              onClick={clearError}
+              autoComplete="current-password"
+              endAdornment={
+                <InputAdornment position="end">
+                  <IconButton
+                    aria-label="toggle password visibility"
+                    onClick={handleClickShowPassword}
+                    onMouseDown={preventDefault}
+                    onMouseUp={preventDefault}
+                    edge="end"
+                  >
+                    {showPassword ? <VisibilityOff /> : <Visibility />}
+                  </IconButton>
+                </InputAdornment>
+              }
+              label="Password"
             />
           </FormControl>
 
           {/* New Password */}
           <FormControl fullWidth margin="normal">
-            <TextField
-              label="New Password"
-              name="new-password"
+            <InputLabel htmlFor="new-password">New Password</InputLabel>
+            <OutlinedInput
+              id="new-password"
+              name="new"
+              type={showPassword ? "text" : "password"}
               value={password.new}
-              onChange={handleChange}
-              fullWidth
+              onChange={handleChangePassword}
+              onClick={clearError}
+              autoComplete="new-password"
+              endAdornment={
+                <InputAdornment position="end">
+                  <IconButton
+                    aria-label="toggle new-password visibility"
+                    onClick={handleClickShowPassword}
+                    onMouseDown={preventDefault}
+                    onMouseUp={preventDefault}
+                    edge="end"
+                  >
+                    {showPassword ? <VisibilityOff /> : <Visibility />}
+                  </IconButton>
+                </InputAdornment>
+              }
+              label="Password"
             />
           </FormControl>
+          {error && <div className="error-changePassword error">{error}</div>}
 
           {/* Submit Button */}
           <div className="align-button-right">
             <Button
               className="form-button-style updatePasswordBtn"
               variant="contained"
-              onClick={handleSubmit}
+              onClick={handleChangePasswordSubmit}
             >
               Update Password
             </Button>
@@ -164,5 +287,4 @@ const MyAccount = () => {
     </div>
   );
 };
-
 export default MyAccount;

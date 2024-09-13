@@ -7,6 +7,7 @@ const Celebration = () => {
   const [birthdays, setBirthdays] = useState([]);
   const today = new Date();
   const users = useSelector((state) => state.user.list);
+  console.log(anniversaries, birthdays);
 
   useEffect(() => {
     if (users.length > 0) {
@@ -107,18 +108,25 @@ const Celebration = () => {
         <CelebrationIcon />
         <h5>Celebration</h5>
       </div>
-      {anniversaries.map((anniversary, index) => (
-        <div key={index} className="celebration-content">
-          <p>{anniversary.message}</p>
-          <span>{anniversary.date.formattedDate}</span>
-        </div>
-      ))}
-      {birthdays.map((birthday, index) => (
-        <div key={index} className="celebration-content">
-          <p>{birthday.message}</p>
-          <span>{birthday.date.formattedDate}</span>
-        </div>
-      ))}
+      {(anniversaries && anniversaries.length > 0) ||
+      (birthdays && birthdays.length > 0) ? (
+        <>
+          {anniversaries?.map((anniversary, index) => (
+            <div key={index} className="celebration-content">
+              <p>{anniversary.message}</p>
+              <span>{anniversary.date.formattedDate}</span>
+            </div>
+          ))}
+          {birthdays?.map((birthday, index) => (
+            <div key={index} className="celebration-content">
+              <p>{birthday.message}</p>
+              <span>{birthday.date.formattedDate}</span>
+            </div>
+          ))}
+        </>
+      ) : (
+        <p>No Celebration upcoming</p>
+      )}
     </div>
   );
 };

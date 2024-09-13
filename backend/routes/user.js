@@ -2,6 +2,7 @@ import express from "express";
 const router = express.Router();
 
 import {
+  getUsersIncludeAll,
   getUsers,
   getUser,
   createUser,
@@ -12,7 +13,9 @@ import {
   changePermissionOfUser,
 } from "../controllers/userController.js";
 
-//GET all users
+//GET all users include deleted staffs
+router.get("/allusers", getUsersIncludeAll);
+//GET all available users
 router.get("/", getUsers);
 //GET a single user
 router.get("/:id", getUser);

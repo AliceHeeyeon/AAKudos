@@ -10,10 +10,9 @@ import { RiLogoutCircleRLine } from "react-icons/ri";
 
 const Navbar = () => {
   const [isOpen, setOpen] = useState(false);
-  const userState = useSelector((state) => state.auth.user);
-  const user = userState?.user;
-  const userName = userState?.user?.[0]?.Name;
-  const userRole = userState?.user?.[0]?.Role;
+  const user = useSelector((state) => state.user.loginUser[0]);
+  const userName = user.Name;
+  const userRole = user.Role;
 
   const dispatch = useDispatch();
   const navigate = useNavigate();

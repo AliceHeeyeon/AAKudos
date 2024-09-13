@@ -2,8 +2,8 @@ import { createAsyncThunk } from "@reduxjs/toolkit";
 import axios from "axios";
 import {
   getUsersRequest,
+  getAllUsersRequest,
   updateUsersInfo,
-  setLoginUserInfo,
 } from "../slices/userSlice";
 
 const baseUrl = import.meta.env.VITE_BASE_URL;
@@ -13,6 +13,31 @@ export const getUsers = createAsyncThunk(
     try {
       const response = await axios.get(`${baseUrl}/api/user`);
       dispatch(getUsersRequest(response.data[0]));
+    } catch (err) {
+      console.error(err.message);
+    }
+  }
+);
+
+export const getAllUsers = createAsyncThunk(
+  "user/allusers",
+  async (_, { dispatch }) => {
+    try {
+      const response = await axios.get(`${baseUrl}/api/user/allusers`);
+      dispatch(getAllUsersRequest(response.data[0]));
+    } catch (err) {
+      console.error(err.message);
+    }
+  }
+);
+
+export const getUpdatedUserInfo = createAsyncThunk(
+  "user/getuser",
+  async (Id, { dispatch }) => {
+    try {
+      const response = await axios.get(`${baseUrl}/api/user/${Id}`);
+
+      return response.data[0];
     } catch (err) {
       console.error(err.message);
     }
@@ -47,10 +72,41 @@ export const changeUserPermisson = createAsyncThunk(
   }
 );
 
-export const loginUserInfo = () => (dispatch) => {
-  const user = localStorage.getItem("user");
-  if (user) {
-    const parsedUser = JSON.parse(user);
-    dispatch(setLoginUserInfo(parsedUser));
+export const editUser = createAsyncThunk(
+  "user/edituser",
+  async ({ userId, profile }, { rejectWithValue }) => {
+    try {
+      const response = await axios.patch(
+        `${baseUrl}/api/user/${userId}/edituser`,
+        {
+          Name: profile.fullName,
+          Email: profile.email,
+          Role: profile.role,
+          JoinDate: profile.dateOfEmployment,
+          DOB: profile.dateOfBirth,
+        }
+      );
+      return response.data;
+    } catch (err) {
+      return rejectWithValue(err.response.data);
+    }
   }
-};
+);
+
+export const changePassword = createAsyncThunk(
+  "user/changepassword",
+  async ({ userId, password }, { rejectWithValue }) => {
+    try {
+      const response = await axios.patch(
+        `${baseUrl}/api/user/${userId}/changepassword`,
+        {
+          Password: password.current,
+          NewPassword: password.new,
+        }
+      );
+      return response.data;
+    } catch (err) {
+      return rejectWithValue(err.response.data);
+    }
+  }
+);
