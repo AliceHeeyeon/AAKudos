@@ -30,39 +30,36 @@ button {
   background-color: $primary-blue;
   padding: 15px 20px;
 
-  .nav-mobile {
+  .logo-box-desktop {
+    display: none;
+  }
+  .desktop-menu {
+    display: none;
+  }
+  .nav-menu {
     @include flex;
     justify-content: space-between;
-    .hamburger-menu-mobile {
+    .hamburger-menu {
       .hamburger-react {
         color: white;
       }
     }
-    .logo-box-mobile {
-      //padding-left: 20px;
-      margin: 0 auto;
-    }
   }
   .login-info {
-    @include flex;
-    color: white;
+    color: white !important;
     .user-info {
       padding-right: 20px;
-      border-right: 1px solid white;
+      text-align: right;
+      font-family: $primary-font;
       h4 {
-        font-size: 16px;
+        font-size: 18px;
+        height: 22px;
       }
       P {
-        font-size: 15px;
+        font-size: 16px;
+        font-weight: 300;
       }
     }
-    .logout-btn {
-      font-size: 23px;
-      padding-left: 20px;
-    }
-  }
-  .nav-desktop {
-    display: none;
   }
 }
 
@@ -87,11 +84,6 @@ button {
       }
     }
   }
-}
-
-// Desktop menu
-.desktop-menu {
-  display: none;
 }
 
 //Home
@@ -205,7 +197,6 @@ button {
 
 //MessageInput component
 //modal box
-
 .css-c09uja-MuiPaper-root-MuiDialog-paper {
   padding: 10px 15px 15px;
 }
@@ -255,7 +246,7 @@ button {
   background-color: $primary-blue;
   text-align: center;
   color: white;
-  padding-top: 60px;
+  padding-top: 150px;
 
   h4 {
     font-size: 26px;

@@ -73,8 +73,10 @@ const Login = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    dispatch(login(formData));
-    navigate("/");
+    const resultAction = await dispatch(login(formData));
+    if (login.fulfilled.match(resultAction)) {
+      navigate("/");
+    }
   };
 
   const handleClickShowPassword = () => setShowPassword(!showPassword);

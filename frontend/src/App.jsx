@@ -1,7 +1,8 @@
-import { HashRouter, Routes, Route } from "react-router-dom";
-import { useEffect } from "react";
+import { BrowserRouter, Routes, Route } from "react-router-dom";
+import { useEffect, useState } from "react";
 import { useDispatch } from "react-redux";
 import { getUsers, getAllUsers } from "./redux/thunks/userThunk";
+import { getUpdatedUserInfo } from "./redux/thunks/authThunk";
 import "./css/App.css";
 
 //pages
@@ -16,22 +17,33 @@ import MyAccount from "./pages/MyAccount";
 
 //components
 import Navbar from "./components/Navbar";
-import Footer from "./components/Footer";
 
 function App() {
   const dispatch = useDispatch();
+  const storedUserId = localStorage.getItem("userId");
+
   useEffect(() => {
+    // const storedUserId = localStorage.getItem("userId");
+    // console.log(storedUserId);
+
+    // if (storedUserId) {
+    //   dispatch(getUpdatedUserInfo(storedUserId)).finally(() => {
+    //     setLoading(false);
+    //   });
+    // } else {
+    //   setLoading(false);
+    // }
     const fetchData = async () => {
       dispatch(getUsers());
       dispatch(getAllUsers());
+      dispatch(getUpdatedUserInfo(storedUserId));
     };
     fetchData();
   }, []);
 
   return (
     <div className="App">
-      <HashRouter>
-        <Navbar />
+      <BrowserRouter>
         <Routes>
           <Route path="/" element={<Home />} />
           <Route path="/login" element={<Login />} />
@@ -42,7 +54,7 @@ function App() {
           <Route path="/admin" element={<Admin />} />
           <Route path="/myaccount" element={<MyAccount />} />
         </Routes>
-      </HashRouter>
+      </BrowserRouter>
     </div>
   );
 }

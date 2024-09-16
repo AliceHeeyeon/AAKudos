@@ -6,7 +6,6 @@ import {
   addAnnouncement,
 } from "../redux/thunks/announcementThunk";
 import { deletUser, changeUserPermisson } from "../redux/thunks/userThunk";
-import DesktopMenu from "../components/DesktopMenu";
 
 //MUI Alert
 import Button from "@mui/material/Button";
@@ -28,7 +27,7 @@ import { FaTrashCan } from "react-icons/fa6";
 
 const Admin = () => {
   const users = useSelector((state) => state.user.list);
-  const author = useSelector((state) => state.user.loginUser[0]);
+  const author = useSelector((state) => state.auth.userData[0]);
   const updateStatus = useSelector((state) => state.user.status);
   const dispatch = useDispatch();
   const [formData, setFormData] = useState({
@@ -151,7 +150,6 @@ const Admin = () => {
 
   return (
     <div className="admin page">
-      <DesktopMenu />
       <div className="admin-contents">
         {/* Announcement Section (Admin only) */}
         <div className="admin-announcement-section">

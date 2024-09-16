@@ -16,19 +16,15 @@ const MessageInput = ({ open, setOpen }) => {
   const dispatch = useDispatch();
   const handleClose = () => setOpen(false);
   const users = useSelector((state) => state.user.list);
-  const { error, status } = useSelector((state) => state.kudo);
+  const loginUserData = useSelector((state) => state.auth.userData);
+  const loginUser = loginUserData ? loginUserData[0] : "";
+  const { error } = useSelector((state) => state.kudo);
   const [validationErrors, setValidationErrors] = useState(null);
   const [formData, setFormData] = useState({
-    AuthorId: "",
+    AuthorId: loginUser.Id,
     TargetId: "",
     Content: "",
   });
-
-  useEffect(() => {
-    const authorString = localStorage.getItem("user");
-    const author = JSON.parse(authorString);
-    setFormData({ ...formData, ["AuthorId"]: author.user[0].Id });
-  }, []);
 
   //mui drop down menu style
   const MenuProps = {
@@ -59,12 +55,6 @@ const MessageInput = ({ open, setOpen }) => {
     }
     dispatch(newKudos(formData));
   };
-
-  useEffect(() => {
-    if (status === "succeeded") {
-      setOpen(false);
-    }
-  }, [status, setOpen]);
 
   return (
     <div id="modal-message">

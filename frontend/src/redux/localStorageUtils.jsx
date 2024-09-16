@@ -1,15 +1,15 @@
-export const saveStateToLocalStorage = (state) => {
+export const saveStateToLocalStorage = (user) => {
   try {
-    const serializedState = JSON.stringify(state);
-    localStorage.setItem("user", serializedState);
+    const serializedUser = JSON.stringify(user);
+    localStorage.setItem("userData", serializedUser);
   } catch (err) {
-    console.error("Error saving state:", err);
+    console.error("Error saving user:", err);
   }
 };
 
 export const loadStateFromLocalStorage = () => {
   try {
-    const serializedState = localStorage.getItem("user");
+    const serializedState = localStorage.getItem("userData");
     if (serializedState === null) return undefined;
     return JSON.parse(serializedState);
   } catch (err) {

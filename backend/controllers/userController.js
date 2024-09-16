@@ -143,21 +143,24 @@ export async function login(req, res) {
     const result = await request.query(
       "SELECT * FROM [User] WHERE Email = @email"
     );
+
     if (result.length === 0) {
       console.log("No user found with this email");
       return res.status(401).json({ error: "Invalid email or password" });
     }
 
     // if the user is found, compare the provide password with the bcrypt-hashed password stored for the user.
-    const user = result.recordsets[0];
-    console.log(user);
+    const user = result.recordset[0];
 
-    const isMatch = await bcrypt.compare(password, user[0].Password);
+    const isMatch = await bcrypt.compare(password, user.Password);
 
     if (!isMatch) {
+      console.log("password is not match");
       return res.status(401).json({ error: "Invalid email or password" });
     }
     const token = generateToken(user);
+    console.log(token);
+
     res.status(200).json({ user, token });
   } catch (error) {
     console.error("Error querying the database:", error);

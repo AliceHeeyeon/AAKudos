@@ -1,11 +1,5 @@
 import { createSlice } from "@reduxjs/toolkit";
-import {
-  getUpdatedUserInfo,
-  editUser,
-  changePassword,
-} from "../thunks/userThunk";
-
-let userFromLocalStorage = JSON.parse(localStorage.getItem("user"));
+import { editUser, changePassword } from "../thunks/userThunk";
 
 const userSlice = createSlice({
   name: "user",
@@ -14,7 +8,6 @@ const userSlice = createSlice({
     allList: [],
     status: "",
     message: "",
-    loginUser: userFromLocalStorage || null,
   },
   reducers: {
     getUsersRequest(state, action) {
@@ -33,9 +26,6 @@ const userSlice = createSlice({
   },
   extraReducers: (builder) => {
     builder
-      .addCase(getUpdatedUserInfo.fulfilled, (state, action) => {
-        state.loginUser = action.payload;
-      })
       .addCase(editUser.fulfilled, (state, action) => {
         state.status = "success";
         state.message = "User data updated successfully!";

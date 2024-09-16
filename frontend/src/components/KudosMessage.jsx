@@ -12,6 +12,7 @@ const KudosMessage = () => {
   const [page, setPage] = useState(1);
   const messagePerPage = 5;
   const users = useSelector((state) => state.user.allList);
+  const { status } = useSelector((state) => state.kudo);
 
   useEffect(() => {
     const fetchMessages = async () => {
@@ -25,6 +26,12 @@ const KudosMessage = () => {
 
     fetchMessages();
   }, [kudosMessages]);
+
+  useEffect(() => {
+    if (status === "succeeded") {
+      setOpen(false);
+    }
+  }, [status, setOpen]);
 
   const sortedMessages = kudosMessages
     .slice()

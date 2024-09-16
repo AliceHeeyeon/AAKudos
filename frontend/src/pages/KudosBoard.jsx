@@ -1,7 +1,6 @@
 import { useState, useEffect } from "react";
 import { useSelector } from "react-redux";
 import axios from "axios";
-import DesktopMenu from "../components/DesktopMenu";
 import MenuItem from "@mui/material/MenuItem";
 import Select from "@mui/material/Select";
 import InputLabel from "@mui/material/InputLabel";
@@ -103,7 +102,6 @@ const KudosBoard = () => {
   <FaMedal />;
   return (
     <div className="kudos-board page">
-      <DesktopMenu />
       <div className="kudos-board-contents">
         <div className="kudos-leaderboard">
           <h2>

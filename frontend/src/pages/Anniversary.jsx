@@ -2,7 +2,6 @@ import { useState, useEffect } from "react";
 import { useSelector } from "react-redux";
 import FullCalendar from "@fullcalendar/react";
 import dayGridPlugin from "@fullcalendar/daygrid";
-import DesktopMenu from "../components/DesktopMenu";
 
 const Anniversary = () => {
   const [events, setEvents] = useState([]);
@@ -69,7 +68,6 @@ const Anniversary = () => {
   }
   return (
     <div className="anniversary page">
-      <DesktopMenu />
       <div className="anniversary-contents">
         <FullCalendar
           plugins={[dayGridPlugin]}

@@ -1,21 +1,23 @@
 //components
-import DesktopMenu from "../components/DesktopMenu";
 import KudosMessage from "../components/KudosMessage";
 import Announcement from "../components/Announcement";
 import Celebration from "../components/Celebration";
+import Navbar from "../components/Navbar";
 
 const Home = () => {
   return (
-    <div className="home page">
-      <DesktopMenu />
-      <div className="home-contents">
-        <div className="notice-board">
-          <Announcement />
-          <Celebration />
+    <>
+      <Navbar />
+      <div className="home page">
+        <div className="home-contents">
+          <div className="notice-board">
+            <Announcement />
+            <Celebration />
+          </div>
+          <KudosMessage />
         </div>
-        <KudosMessage />
       </div>
-    </div>
+    </>
   );
 };
 

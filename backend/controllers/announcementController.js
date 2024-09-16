@@ -21,7 +21,6 @@ export async function getAllAnnouncement(req, res) {
     const result = await request.query(
       "SELECT * FROM [Announcement] ORDER BY CreatedAt DESC"
     );
-    console.log(result);
     res.status(200).json(result.recordsets);
   } catch (err) {
     console.error("Error querying announcement data: ", err);

@@ -1,10 +1,6 @@
 import { createAsyncThunk } from "@reduxjs/toolkit";
 import axios from "axios";
-import {
-  getUsersRequest,
-  getAllUsersRequest,
-  updateUsersInfo,
-} from "../slices/userSlice";
+import { getUsersRequest, getAllUsersRequest } from "../slices/userSlice";
 
 const baseUrl = import.meta.env.VITE_BASE_URL;
 export const getUsers = createAsyncThunk(
@@ -25,19 +21,6 @@ export const getAllUsers = createAsyncThunk(
     try {
       const response = await axios.get(`${baseUrl}/api/user/allusers`);
       dispatch(getAllUsersRequest(response.data[0]));
-    } catch (err) {
-      console.error(err.message);
-    }
-  }
-);
-
-export const getUpdatedUserInfo = createAsyncThunk(
-  "user/getuser",
-  async (Id, { dispatch }) => {
-    try {
-      const response = await axios.get(`${baseUrl}/api/user/${Id}`);
-
-      return response.data[0];
     } catch (err) {
       console.error(err.message);
     }

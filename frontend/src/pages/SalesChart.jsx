@@ -1,6 +1,5 @@
 import { useState, useEffect } from "react";
 import axios from "axios";
-import DesktopMenu from "../components/DesktopMenu";
 import Box from "@mui/material/Box";
 import { BarChart } from "@mui/x-charts/BarChart";
 import Radio from "@mui/material/Radio";
@@ -83,7 +82,6 @@ const SalesChart = () => {
 
   return !loading ? (
     <div className="saleschart page">
-      <DesktopMenu />
       <div className="saleschart-contents">
         <h2>Sales Chart</h2>
         <Box sx={{ width: "100%" }}>

@@ -1,7 +1,8 @@
 import { useState, useEffect } from "react";
-import DesktopMenu from "../components/DesktopMenu";
 import { useSelector, useDispatch } from "react-redux";
-import { getUpdatedUserInfo } from "../redux/thunks/userThunk";
+import { useNavigate } from "react-router";
+import { getUpdatedUserInfo } from "../redux/thunks/authThunk";
+import { logout } from "../redux/slices/authSlice";
 import { editUser, changePassword } from "../redux/thunks/userThunk";
 import { resetStatus } from "../redux/slices/userSlice";
 import {
@@ -19,9 +20,11 @@ import InputAdornment from "@mui/material/InputAdornment";
 import IconButton from "@mui/material/IconButton";
 
 const MyAccount = () => {
-  const user = useSelector((state) => state.user.loginUser[0]);
+  const userData = useSelector((state) => state.auth.userData);
+  const user = userData ? userData[0] : "";
   const userId = user.Id;
   const dispatch = useDispatch();
+  const navigate = useNavigate();
   const [loading, setLoading] = useState(true);
   const [profile, setProfile] = useState({
     email: "",
@@ -37,7 +40,6 @@ const MyAccount = () => {
   const [showPassword, setShowPassword] = useState(false);
   const [error, setError] = useState(null);
   const { status, message } = useSelector((state) => state.user);
-  console.log(status, message);
 
   const handleClickShowPassword = () => setShowPassword(!showPassword);
 
@@ -97,9 +99,14 @@ const MyAccount = () => {
       setError("Password must be at least 6 characters");
       return;
     }
-    console.log(status);
     dispatch(changePassword({ userId, password }));
+
+    if (status === "success") {
+      navigate("/login");
+      dispatch(logout());
+    }
   };
+  console.log(status);
 
   const clearError = () => {
     setError("");
@@ -128,7 +135,6 @@ const MyAccount = () => {
   }
   return (
     <div className="myaccount page">
-      <DesktopMenu />
       <div className="myaccount-contents">
         <h2>My Profile</h2>
         <form>

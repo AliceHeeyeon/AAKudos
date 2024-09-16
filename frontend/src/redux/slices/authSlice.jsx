@@ -1,13 +1,16 @@
 import { createSlice } from "@reduxjs/toolkit";
-import { login } from "../thunks/authThunk";
+import { login, getUpdatedUserInfo } from "../thunks/authThunk";
+import { saveStateToLocalStorage } from "../localStorageUtils";
 
 let userFromLocalStorage = JSON.parse(localStorage.getItem("user"));
+let userIdFromLocalStorage = localStorage.getItem("userId");
 
 const authSlice = createSlice({
   name: "auth",
   initialState: {
     isAuthenticated: !!userFromLocalStorage,
-    user: userFromLocalStorage || null,
+    userData: userFromLocalStorage || null,
+    userId: userIdFromLocalStorage || null,
     loading: false,
     error: null,
     validationErrors: {},
@@ -20,7 +23,7 @@ const authSlice = createSlice({
     },
     signupSuccess(state, action) {
       state.loading = false;
-      state.user = action.payload;
+      state.userData = action.payload;
       state.isAuthenticated = true;
     },
     signupFailure(state, action) {
@@ -39,8 +42,9 @@ const authSlice = createSlice({
     },
     loginSuccess(state, action) {
       state.loading = false;
-      state.user = action.payload;
       state.isAuthenticated = true;
+      state.error = null;
+      state.userData = action.payload;
     },
     loginFailure(state, action) {
       state.loading = false;
@@ -48,24 +52,41 @@ const authSlice = createSlice({
     },
     logout(state) {
       state.isAuthenticated = false;
-      state.user = null;
-      localStorage.removeItem("user");
+      state.userData = null;
+      state.userId = null;
+      state.loading = false;
+      state.error = null;
+      state.validationErrors = {};
+      localStorage.removeItem("userData");
+      localStorage.removeItem("userId");
+      console.log("logout is active");
     },
   },
   extraReducers: (builder) => {
     builder
-      .addCase(login.pending, (state) => {
-        state.loading = true;
-        state.error = null;
-      })
       .addCase(login.fulfilled, (state, action) => {
         state.loading = false;
-        (state.isAuthenticated = false), (state.error = action.payload);
+        state.isAuthenticated = true;
+        state.error = null;
+        state.userData = action.payload;
+
+        saveStateToLocalStorage(action.payload);
       })
       .addCase(login.rejected, (state, action) => {
         state.loading = false;
         state.isAuthenticated = false;
         state.error = action.payload;
+      })
+      .addCase(getUpdatedUserInfo.fulfilled, (state, action) => {
+        state.userData = action.payload;
+        saveStateToLocalStorage(state.user);
+      })
+      .addCase(getUpdatedUserInfo.pending, (state) => {
+        state.loading = true;
+      })
+      .addCase(getUpdatedUserInfo.rejected, (state) => {
+        state.loading = false;
+        state.error = "Failed to load user information.";
       });
   },
 });
