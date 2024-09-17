@@ -4,7 +4,23 @@ import Announcement from "../components/Announcement";
 import Celebration from "../components/Celebration";
 import Navbar from "../components/Navbar";
 
+import { useNavigate } from "react-router";
+import { useEffect } from "react";
+import { logout } from "../redux/slices/authSlice";
+import { useDispatch } from "react-redux";
+
 const Home = () => {
+  const dispatch = useDispatch();
+  const navigate = useNavigate();
+  const storedUserId = localStorage.getItem("userId");
+
+  useEffect(() => {
+    if (!storedUserId) {
+      navigate("/");
+      dispatch(logout());
+    }
+  }, [storedUserId, navigate]);
+
   return (
     <>
       <Navbar />

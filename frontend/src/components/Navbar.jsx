@@ -25,7 +25,9 @@ const Navbar = () => {
   const storedUserId = localStorage.getItem("userId");
 
   useEffect(() => {
-    dispatch(getUpdatedUserInfo(storedUserId));
+    if (storedUserId) {
+      dispatch(getUpdatedUserInfo(storedUserId));
+    }
     setIsLoading(false);
   }, []);
 

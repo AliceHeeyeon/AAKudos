@@ -25,7 +25,9 @@ function App() {
       dispatch(getUsers());
       dispatch(getAllUsers());
       dispatch(getAnnouncement());
-      dispatch(getUpdatedUserInfo(storedUserId));
+      if (storedUserId) {
+        dispatch(getUpdatedUserInfo(storedUserId));
+      }
     };
     fetchData();
   }, []);
@@ -34,7 +36,9 @@ function App() {
     <div className="App">
       <BrowserRouter>
         <Routes>
-          <Route path="/" element={<Home />} />
+          {/* if we have a user show home, else go to login */}
+          <Route path="/" element={storedUserId ? <Home /> : <Login />} />
+          {/* <Route path="/" element={<Home />} /> */}
           <Route path="/login" element={<Login />} />
           <Route path="/signup" element={<Signup />} />
           <Route path="/kudosboard" element={<KudosBoard />} />
