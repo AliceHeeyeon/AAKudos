@@ -22,14 +22,13 @@ const Navbar = () => {
   const user = userData ? userData[0] : "";
   const userName = user ? user.Name : "";
   const userRole = user ? user.Role : "";
+  const storedUserId = localStorage.getItem("userId");
 
   useEffect(() => {
-    if (!user) {
-      setIsLoading(true);
-    } else {
-      setIsLoading(false);
-    }
-  }, [user]);
+    dispatch(getUpdatedUserInfo(storedUserId));
+    setIsLoading(false);
+  }, []);
+
   if (isLoading) {
     return <div>Loading...</div>;
   }
@@ -58,7 +57,10 @@ const Navbar = () => {
         <nav id="nav">
           <div className="nav-menu">
             <div className="logo_and_menu_container">
-              <div className="logo-box-desktop" onClick={() => navigate("/")}>
+              <div
+                className="logo-box-desktop cursor-pointer"
+                onClick={() => navigate("/")}
+              >
                 <img src="./src/images/AA-logo.svg" alt="aa-logo" />
               </div>
 
@@ -68,6 +70,9 @@ const Navbar = () => {
 
               <div className="desktop-menu">
                 <ul>
+                  <li className="cursor-pointer" onClick={() => navigate("/")}>
+                    <p>Home</p>
+                  </li>
                   <li
                     className="cursor-pointer"
                     onClick={() => navigate("/kudosboard")}
@@ -123,7 +128,7 @@ const Navbar = () => {
                 </MenuItem>
                 {user.Permission && (
                   <MenuItem onClick={() => handleSettingMenuClick("/admin")}>
-                    Admin Task
+                    Admin
                   </MenuItem>
                 )}
                 <MenuItem onClick={handleLogout}>Logout</MenuItem>

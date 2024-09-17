@@ -2,6 +2,8 @@ import { useState, useEffect } from "react";
 import { useSelector } from "react-redux";
 import FullCalendar from "@fullcalendar/react";
 import dayGridPlugin from "@fullcalendar/daygrid";
+//component
+import Navbar from "../components/Navbar";
 
 const Anniversary = () => {
   const [events, setEvents] = useState([]);
@@ -67,17 +69,20 @@ const Anniversary = () => {
     );
   }
   return (
-    <div className="anniversary page">
-      <div className="anniversary-contents">
-        <FullCalendar
-          plugins={[dayGridPlugin]}
-          initialView="dayGridMonth"
-          weekends={true}
-          events={events}
-          eventContent={renderEventContent}
-        />
+    <>
+      <Navbar />
+      <div className="anniversary page">
+        <div className="anniversary-contents">
+          <FullCalendar
+            plugins={[dayGridPlugin]}
+            initialView="dayGridMonth"
+            weekends={true}
+            events={events}
+            eventContent={renderEventContent}
+          />
+        </div>
       </div>
-    </div>
+    </>
   );
 };
 

@@ -93,8 +93,10 @@ export async function createUser(req, res) {
       .input("JoinDate", sql.Date, joinDate)
       .input("Password", sql.NVarChar, hashedPassword)
       .input("DOB", sql.Date, dob)
+      .input("Permission", sql.Int, role === "system" ? 1 : 0)
+      .input("IsDeleted", sql.Bit, 0)
       .query(
-        "INSERT INTO [User] (Name, Email, Role, JoinDate, Password, DOB) OUTPUT INSERTED.Id VALUES (@Name, @Email, @Role, @JoinDate, @Password, @DOB)"
+        "INSERT INTO [User] (Name, Email, Role, JoinDate, Password, DOB, Permission, IsDeleted) OUTPUT INSERTED.Id VALUES (@Name, @Email, @Role, @JoinDate, @Password, @DOB, @Permission, @IsDeleted)"
       );
 
     const newUserId = result.recordset[0].Id;
@@ -106,22 +108,22 @@ export async function createUser(req, res) {
       .query("SELECT * FROM [User] WHERE Id = @Id");
 
     let newUser = newUserResult.recordset[0];
-    const newUserRole = newUser.Role;
+    //const newUserRole = newUser.Role;
 
     // If UserRole includes 'System' set Permission is true
-    if (newUserRole.includes("System")) {
-      request = pool.request();
-      await request
-        .input("Id", sql.Int, newUser.Id)
-        .query(`UPDATE [User] SET Permission = 1 WHERE Id = @Id`);
+    // if (newUserRole.includes("System")) {
+    //   request = pool.request();
+    //   await request
+    //     .input("Id", sql.Int, newUser.Id)
+    //     .query(`UPDATE [User] SET Permission = 1 WHERE Id = @Id`);
 
-      // Then retrieve the updated user
-      request = pool.request();
-      newUserResult = await request
-        .input("Id", sql.Int, newUser.Id)
-        .query("SELECT * FROM [User] WHERE Id = @Id");
-      newUser = newUserResult.recordset[0];
-    }
+    // Then retrieve the updated user
+    request = pool.request();
+    newUserResult = await request
+      .input("Id", sql.Int, newUser.Id)
+      .query("SELECT * FROM [User] WHERE Id = @Id");
+    newUser = newUserResult.recordset[0];
+    // }
 
     const token = generateToken(newUser);
     res.status(200).json({ user: newUser, token });

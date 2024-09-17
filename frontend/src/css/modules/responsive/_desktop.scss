@@ -6,13 +6,12 @@
   }
 
   .home-contents,
-  .kudosboard-contents,
   .saleschart-contents,
   .anniversary-contents,
   .admin-contents,
   .myaccount-contents {
     flex: 1;
-    margin: 20px 30px;
+    margin: 30px 40px;
     overflow: hidden;
   }
 
@@ -20,6 +19,10 @@
   .login,
   .signup {
     height: 100vh;
+  }
+
+  .kudos-board-contents {
+    height: max-content;
   }
 
   //nav
@@ -59,6 +62,14 @@
         font-size: 19px;
       }
     }
+  }
+
+  //Home
+  .notice-board {
+    display: grid;
+    grid-template-columns: 47% 1fr;
+    gap: 20px;
+    padding: 10px 30px;
   }
 
   //Sales Chart
@@ -108,8 +119,73 @@
     width: 120px !important;
   }
 
-  // Footer
-  footer {
-    display: none;
+  //kudosboard page
+  .kudos-board {
+    .kudos-leaderboard {
+      h2 {
+        font-size: 27px;
+        svg {
+          font-size: 40px;
+          margin-right: 10px;
+        }
+      }
+    }
+    .kudos-leaderboard-list {
+      .leaderboard-item {
+        .leaderboard-rank {
+          font-size: 19px;
+          svg {
+            font-size: 40px;
+          }
+        }
+        .leaderboard-name {
+          font-size: 20px;
+        }
+        .leaderboard-kudos-count {
+          font-size: 18px;
+        }
+      }
+    }
+
+    .senders-leaderboard {
+      margin: 35px 40px;
+      background-color: white;
+      padding: 30px 40px;
+      border-radius: 10px;
+      h3 {
+        font-size: 24px;
+        font-weight: 500;
+        border-bottom: 1px solid black;
+        padding-bottom: 30px;
+        display: flex;
+        align-items: end;
+        svg {
+          font-size: 40px;
+          margin-right: 10px;
+        }
+      }
+      .senders-leaderboard-list {
+        .senders-item {
+          margin-bottom: 30px;
+          .senders-rank {
+            font-size: 18px;
+          }
+          .senders-name {
+            display: flex;
+            flex-direction: column;
+            flex: 2;
+            margin-left: 30px;
+            font-size: 20px;
+            span {
+              font-size: 18px;
+              color: $gray-text-color;
+            }
+          }
+          .senders-post-count {
+            font-size: 18px;
+          }
+        }
+      }
+    }
   }
 }

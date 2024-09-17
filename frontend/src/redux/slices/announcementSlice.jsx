@@ -11,7 +11,7 @@ const announcementSlice = createSlice({
       state.list = action.payload;
     },
     addNewAnnouncement(state, action) {
-      state.list.push(action.payload);
+      state.list = [...state.list, action.payload];
     },
     removeAnnouncement: (state, action) => {
       state.list = state.list.filter(

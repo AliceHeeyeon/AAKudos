@@ -18,6 +18,8 @@ import { Visibility, VisibilityOff } from "@mui/icons-material";
 import OutlinedInput from "@mui/material/OutlinedInput";
 import InputAdornment from "@mui/material/InputAdornment";
 import IconButton from "@mui/material/IconButton";
+//component
+import Navbar from "../components/Navbar";
 
 const MyAccount = () => {
   const userData = useSelector((state) => state.auth.userData);
@@ -106,7 +108,6 @@ const MyAccount = () => {
       dispatch(logout());
     }
   };
-  console.log(status);
 
   const clearError = () => {
     setError("");
@@ -134,163 +135,168 @@ const MyAccount = () => {
     );
   }
   return (
-    <div className="myaccount page">
-      <div className="myaccount-contents">
-        <h2>My Profile</h2>
-        <form>
-          {/* Email */}
-          <FormControl fullWidth margin="normal">
-            <TextField
-              label="Email"
-              name="email"
-              value={profile.email}
-              onChange={handleChange}
-              fullWidth
-            />
-          </FormControl>
+    <>
+      <Navbar />
+      <div className="myaccount page">
+        <div className="myaccount-contents">
+          <h2>My Profile</h2>
+          <form>
+            {/* Email */}
+            <FormControl fullWidth margin="normal">
+              <TextField
+                label="Email"
+                name="email"
+                value={profile.email}
+                onChange={handleChange}
+                fullWidth
+              />
+            </FormControl>
 
-          {/* Full Name */}
-          <FormControl fullWidth margin="normal">
-            <TextField
-              label="Full Name"
-              name="fullName"
-              value={profile.fullName}
-              onChange={handleChange}
-              fullWidth
-            />
-          </FormControl>
+            {/* Full Name */}
+            <FormControl fullWidth margin="normal">
+              <TextField
+                label="Full Name"
+                name="fullName"
+                value={profile.fullName}
+                onChange={handleChange}
+                fullWidth
+              />
+            </FormControl>
 
-          {/* Role */}
-          <FormControl fullWidth margin="normal">
-            <InputLabel>Role</InputLabel>
-            <Select
-              label="Role"
-              name="role"
-              value={profile.role}
-              onChange={handleChange}
-              fullWidth
-            >
-              <MenuItem value="Sales">Sales</MenuItem>
-              <MenuItem value="Tech">Tech</MenuItem>
-              <MenuItem value="Administrator">Administrator</MenuItem>
-              <MenuItem value="Designer">Designer</MenuItem>
-              <MenuItem value="Operation Administrator">
-                Operation Administrator
-              </MenuItem>
-              <MenuItem value="Project Manager">Project Manager</MenuItem>
-              <MenuItem value="Dispatch">Dispatch</MenuItem>
-              <MenuItem value="System">System Manager</MenuItem>
-            </Select>
-          </FormControl>
+            {/* Role */}
+            <FormControl fullWidth margin="normal">
+              <InputLabel>Role</InputLabel>
+              <Select
+                label="Role"
+                name="role"
+                value={profile.role}
+                onChange={handleChange}
+                fullWidth
+              >
+                <MenuItem value="Sales">Sales</MenuItem>
+                <MenuItem value="Tech">Tech</MenuItem>
+                <MenuItem value="Administrator">Administrator</MenuItem>
+                <MenuItem value="Designer">Designer</MenuItem>
+                <MenuItem value="Operation Administrator">
+                  Operation Administrator
+                </MenuItem>
+                <MenuItem value="Project Manager">Project Manager</MenuItem>
+                <MenuItem value="Dispatch">Dispatch</MenuItem>
+                <MenuItem value="System">System Manager</MenuItem>
+              </Select>
+            </FormControl>
 
-          {/* Date of Employment */}
-          <FormControl fullWidth margin="normal">
-            <TextField
-              label="Date of Employment"
-              name="dateOfEmployment"
-              type="date"
-              value={profile.dateOfEmployment}
-              onChange={handleChange}
-              fullWidth
-            />
-          </FormControl>
+            {/* Date of Employment */}
+            <FormControl fullWidth margin="normal">
+              <TextField
+                label="Date of Employment"
+                name="dateOfEmployment"
+                type="date"
+                value={profile.dateOfEmployment}
+                onChange={handleChange}
+                fullWidth
+              />
+            </FormControl>
 
-          {/* Date of Birth */}
-          <FormControl fullWidth margin="normal">
-            <TextField
-              label="Date of Birth"
-              name="dateOfBirth"
-              type="date"
-              value={profile.dateOfBirth}
-              onChange={handleChange}
-              fullWidth
-            />
-          </FormControl>
+            {/* Date of Birth */}
+            <FormControl fullWidth margin="normal">
+              <TextField
+                label="Date of Birth"
+                name="dateOfBirth"
+                type="date"
+                value={profile.dateOfBirth}
+                onChange={handleChange}
+                fullWidth
+              />
+            </FormControl>
 
-          {/* Submit Button */}
-          <div className="align-button-right">
-            <Button
-              className="form-button-style"
-              variant="contained"
-              onClick={handleSubmit}
-            >
-              Update Profile
-            </Button>
-          </div>
-        </form>
+            {/* Submit Button */}
+            <div className="align-button-right">
+              <Button
+                className="form-button-style"
+                variant="contained"
+                onClick={handleSubmit}
+              >
+                Update Profile
+              </Button>
+            </div>
+          </form>
 
-        <h2 className="myaccount-title-password">Change Password</h2>
-        <form>
-          {/* Current Password */}
-          <FormControl fullWidth margin="normal">
-            <InputLabel htmlFor="current-password">Current Password</InputLabel>
-            <OutlinedInput
-              id="current-password"
-              name="current"
-              type={showPassword ? "text" : "password"}
-              value={password.current}
-              onChange={handleChangePassword}
-              onClick={clearError}
-              autoComplete="current-password"
-              endAdornment={
-                <InputAdornment position="end">
-                  <IconButton
-                    aria-label="toggle password visibility"
-                    onClick={handleClickShowPassword}
-                    onMouseDown={preventDefault}
-                    onMouseUp={preventDefault}
-                    edge="end"
-                  >
-                    {showPassword ? <VisibilityOff /> : <Visibility />}
-                  </IconButton>
-                </InputAdornment>
-              }
-              label="Password"
-            />
-          </FormControl>
+          <h2 className="myaccount-title-password">Change Password</h2>
+          <form>
+            {/* Current Password */}
+            <FormControl fullWidth margin="normal">
+              <InputLabel htmlFor="current-password">
+                Current Password
+              </InputLabel>
+              <OutlinedInput
+                id="current-password"
+                name="current"
+                type={showPassword ? "text" : "password"}
+                value={password.current}
+                onChange={handleChangePassword}
+                onClick={clearError}
+                autoComplete="current-password"
+                endAdornment={
+                  <InputAdornment position="end">
+                    <IconButton
+                      aria-label="toggle password visibility"
+                      onClick={handleClickShowPassword}
+                      onMouseDown={preventDefault}
+                      onMouseUp={preventDefault}
+                      edge="end"
+                    >
+                      {showPassword ? <VisibilityOff /> : <Visibility />}
+                    </IconButton>
+                  </InputAdornment>
+                }
+                label="Password"
+              />
+            </FormControl>
 
-          {/* New Password */}
-          <FormControl fullWidth margin="normal">
-            <InputLabel htmlFor="new-password">New Password</InputLabel>
-            <OutlinedInput
-              id="new-password"
-              name="new"
-              type={showPassword ? "text" : "password"}
-              value={password.new}
-              onChange={handleChangePassword}
-              onClick={clearError}
-              autoComplete="new-password"
-              endAdornment={
-                <InputAdornment position="end">
-                  <IconButton
-                    aria-label="toggle new-password visibility"
-                    onClick={handleClickShowPassword}
-                    onMouseDown={preventDefault}
-                    onMouseUp={preventDefault}
-                    edge="end"
-                  >
-                    {showPassword ? <VisibilityOff /> : <Visibility />}
-                  </IconButton>
-                </InputAdornment>
-              }
-              label="Password"
-            />
-          </FormControl>
-          {error && <div className="error-changePassword error">{error}</div>}
+            {/* New Password */}
+            <FormControl fullWidth margin="normal">
+              <InputLabel htmlFor="new-password">New Password</InputLabel>
+              <OutlinedInput
+                id="new-password"
+                name="new"
+                type={showPassword ? "text" : "password"}
+                value={password.new}
+                onChange={handleChangePassword}
+                onClick={clearError}
+                autoComplete="new-password"
+                endAdornment={
+                  <InputAdornment position="end">
+                    <IconButton
+                      aria-label="toggle new-password visibility"
+                      onClick={handleClickShowPassword}
+                      onMouseDown={preventDefault}
+                      onMouseUp={preventDefault}
+                      edge="end"
+                    >
+                      {showPassword ? <VisibilityOff /> : <Visibility />}
+                    </IconButton>
+                  </InputAdornment>
+                }
+                label="Password"
+              />
+            </FormControl>
+            {error && <div className="error-changePassword error">{error}</div>}
 
-          {/* Submit Button */}
-          <div className="align-button-right">
-            <Button
-              className="form-button-style updatePasswordBtn"
-              variant="contained"
-              onClick={handleChangePasswordSubmit}
-            >
-              Update Password
-            </Button>
-          </div>
-        </form>
+            {/* Submit Button */}
+            <div className="align-button-right">
+              <Button
+                className="form-button-style updatePasswordBtn"
+                variant="contained"
+                onClick={handleChangePasswordSubmit}
+              >
+                Update Password
+              </Button>
+            </div>
+          </form>
+        </div>
       </div>
-    </div>
+    </>
   );
 };
 export default MyAccount;

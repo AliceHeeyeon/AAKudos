@@ -1,8 +1,9 @@
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import { useEffect, useState } from "react";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { getUsers, getAllUsers } from "./redux/thunks/userThunk";
 import { getUpdatedUserInfo } from "./redux/thunks/authThunk";
+import { getAnnouncement } from "./redux/thunks/announcementThunk";
 import "./css/App.css";
 
 //pages
@@ -15,27 +16,15 @@ import Anniversary from "./pages/Anniversary";
 import Admin from "./pages/Admin";
 import MyAccount from "./pages/MyAccount";
 
-//components
-import Navbar from "./components/Navbar";
-
 function App() {
   const dispatch = useDispatch();
   const storedUserId = localStorage.getItem("userId");
 
   useEffect(() => {
-    // const storedUserId = localStorage.getItem("userId");
-    // console.log(storedUserId);
-
-    // if (storedUserId) {
-    //   dispatch(getUpdatedUserInfo(storedUserId)).finally(() => {
-    //     setLoading(false);
-    //   });
-    // } else {
-    //   setLoading(false);
-    // }
     const fetchData = async () => {
       dispatch(getUsers());
       dispatch(getAllUsers());
+      dispatch(getAnnouncement());
       dispatch(getUpdatedUserInfo(storedUserId));
     };
     fetchData();

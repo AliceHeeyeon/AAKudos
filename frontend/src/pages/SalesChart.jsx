@@ -6,6 +6,8 @@ import Radio from "@mui/material/Radio";
 import FormControl from "@mui/material/FormControl";
 import FormControlLabel from "@mui/material/FormControlLabel";
 import RadioGroup from "@mui/material/RadioGroup";
+//component
+import Navbar from "../components/Navbar";
 
 const baseUrl = import.meta.env.VITE_BASE_URL;
 const SalesChart = () => {
@@ -14,6 +16,7 @@ const SalesChart = () => {
   const [invoicingFigure, setInvoicingFigure] = useState(null);
   const [salesFigure, setSalesFigure] = useState(null);
   const [data, setData] = useState(null);
+  const [currentWeek, setCurrentWeek] = useState({});
   const [loading, setLoading] = useState(false);
 
   useEffect(() => {
@@ -31,7 +34,26 @@ const SalesChart = () => {
         setLoading(false);
       }
     };
+    function getCurrentWeekRange() {
+      const today = new Date();
+      const firstDayOfWeek = new Date(
+        today.setDate(today.getDate() - today.getDay() + 1)
+      );
+      const lastDayOfWeek = new Date(
+        today.setDate(firstDayOfWeek.getDate() + 6)
+      );
+
+      const options = { month: "short", day: "numeric" };
+      const startOfWeek = firstDayOfWeek.toLocaleDateString("en-US", options);
+      const endOfWeek = lastDayOfWeek.toLocaleDateString("en-US", options);
+
+      setCurrentWeek({
+        startOfWeek: startOfWeek,
+        endOfWeek: endOfWeek,
+      });
+    }
     fetchKPI();
+    getCurrentWeekRange();
   }, []);
 
   const splitDataByType = (kpis) => {
@@ -78,62 +100,80 @@ const SalesChart = () => {
   };
 
   const series = data ? data.map((s) => ({ ...s, highlightScope })) : [];
-  console.log(initialKPIData);
 
-  return !loading ? (
-    <div className="saleschart page">
-      <div className="saleschart-contents">
-        <h2>Sales Chart</h2>
-        <Box sx={{ width: "100%" }}>
-          {/* Radio button */}
-          <FormControl>
-            <RadioGroup
-              row
-              aria-labelledby="tick-placement-radio-buttons-group-label"
-              name="tick-placement"
-              value={type}
-              onChange={(e) => setType(e.target.value)}
-            >
-              <FormControlLabel
-                value="invoicing"
-                control={<Radio />}
-                label="Invoicing"
-              />
-              <FormControlLabel
-                value="sales"
-                control={<Radio />}
-                label="Sales"
-              />
-            </RadioGroup>
-          </FormControl>
-          {/* Bar graph */}
-          <BarChart
-            xAxis={[
-              { scaleType: "band", data: ["This Week", "MTD", "QTD", "FYTD"] },
-            ]}
-            height={550}
-            series={series}
-            skipAnimation={false}
-          />
-        </Box>
-        <div className="salesRanking">
-          {initialKPIData?.map((kpi) => (
-            <div key={kpi.id}>
-              <h4>{kpi.title}</h4>
-              {kpi.rankings?.map((item, index) => (
-                <ul key={index}>
-                  <li>
-                    {index + 1} {item.name} {item.value}
-                  </li>
-                </ul>
+  return (
+    <>
+      <Navbar />
+      {!loading ? (
+        <div className="saleschart page">
+          <div className="saleschart-contents">
+            <div className="sales-graph">
+              <div className="saleschart-title-box">
+                <h2>Sales Chart</h2>
+                <h3>
+                  Week: {currentWeek.startOfWeek} - {currentWeek.endOfWeek}
+                </h3>
+              </div>
+
+              <Box sx={{ width: "100%" }}>
+                {/* Radio button */}
+                <FormControl>
+                  <RadioGroup
+                    row
+                    aria-labelledby="tick-placement-radio-buttons-group-label"
+                    name="tick-placement"
+                    value={type}
+                    onChange={(e) => setType(e.target.value)}
+                  >
+                    <FormControlLabel
+                      value="invoicing"
+                      control={<Radio />}
+                      label="Invoicing"
+                    />
+                    <FormControlLabel
+                      value="sales"
+                      control={<Radio />}
+                      label="Sales"
+                    />
+                  </RadioGroup>
+                </FormControl>
+                {/* Bar graph */}
+                <BarChart
+                  xAxis={[
+                    {
+                      scaleType: "band",
+                      data: ["This Week", "MTD", "QTD", "FYTD"],
+                    },
+                  ]}
+                  height={550}
+                  series={series}
+                  skipAnimation={false}
+                />
+              </Box>
+            </div>
+
+            <div className="salesRanking">
+              {initialKPIData?.map((kpi) => (
+                <div key={kpi.id} className="kpi-card">
+                  <h4>{kpi.title}</h4>
+                  <ul>
+                    {kpi.rankings?.map((item, index) => (
+                      <li key={index} className="ranking-item">
+                        <span className="rank">{index + 1}</span>
+                        <span className="name">{item.name}</span>
+                        <span className="value">{item.value}K</span>
+                      </li>
+                    ))}
+                  </ul>
+                </div>
               ))}
             </div>
-          ))}
+          </div>
         </div>
-      </div>
-    </div>
-  ) : (
-    <div>loading...</div>
+      ) : (
+        <div>loading...</div>
+      )}
+    </>
   );
 };
 

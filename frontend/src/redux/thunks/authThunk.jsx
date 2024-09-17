@@ -80,7 +80,6 @@ export const getUpdatedUserInfo = createAsyncThunk(
   async (Id, { dispatch }) => {
     try {
       const response = await axios.get(`${baseUrl}/api/user/${Id}`);
-      console.log(response.data[0]);
 
       return response.data[0];
     } catch (err) {

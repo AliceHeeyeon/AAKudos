@@ -90,6 +90,7 @@ button {
   background-color: white;
   padding: 20px 30px;
   margin-bottom: 30px;
+  border-radius: 10px;
 }
 .announcement .title-box,
 .celebration .title-box {
@@ -175,8 +176,6 @@ button {
 .recognition-feed-component .message-box .message-content {
   margin-bottom: 10px;
   font-size: 18px;
-}
-.recognition-feed-component .message-box .message-content p {
   word-wrap: break-word;
   overflow-wrap: break-word;
   white-space: normal;
@@ -222,14 +221,6 @@ button {
   bottom: 25px;
   left: 40px;
   width: 220px;
-}
-
-.salesRanking {
-  display: grid;
-  grid-template-columns: repeat(2, 1fr);
-}
-.salesRanking li {
-  list-style: none;
 }
 
 .signup,
@@ -544,34 +535,79 @@ button {
   bottom: 60px;
 }
 
-footer {
-  position: fixed;
-  height: auto;
-  width: 100%;
-  bottom: 0;
-  left: 0;
-  background-color: #0c335a;
-  color: white;
+.saleschart-contents {
+  padding: 30px;
 }
-footer .footer-logo-box {
+.saleschart-contents .saleschart-title-box {
   display: flex;
+  justify-content: space-between;
   align-items: center;
-  justify-content: center;
-  font-size: 19px;
-  padding-top: 10px;
+  margin-bottom: 15px;
 }
-footer .footer-menu ul {
-  display: flex;
-  justify-content: center;
-  list-style: none;
+.saleschart-contents .saleschart-title-box h2 {
+  font-size: 26px;
+}
+.saleschart-contents .saleschart-title-box h3 {
+  font-size: 19px;
+}
+.saleschart-contents .sales-graph {
+  background-color: white;
+  padding: 30px;
+  border-radius: 10px;
+  margin-bottom: 20px;
+}
+.saleschart-contents .salesRanking {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
   gap: 20px;
-  margin: 20px 0px;
+}
+.saleschart-contents .salesRanking .kpi-card {
+  background-color: #f8f9fa;
+  border: 1px solid #ddd;
+  border-radius: 8px;
+  padding: 15px 25px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  transition: transform 0.2s ease-in-out;
+}
+.saleschart-contents .salesRanking .kpi-card:hover {
+  transform: translateY(-5px);
+}
+.saleschart-contents .salesRanking .kpi-card h4 {
+  font-size: 20px;
+  margin-bottom: 10px;
+  color: #333;
+  margin-bottom: 15px;
+  text-align: center;
+}
+.saleschart-contents .salesRanking .kpi-card ul {
+  list-style-type: none;
+  padding: 0;
+  margin-top: 10px;
   font-size: 18px;
 }
-footer .copyright {
-  text-align: center;
-  font-size: 15px;
-  padding: 20px 0px;
+.saleschart-contents .salesRanking .kpi-card ul li {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 10px;
+}
+.saleschart-contents .salesRanking .kpi-card ul .ranking-item {
+  display: flex;
+  justify-content: space-between;
+  padding: 5px 0;
+}
+.saleschart-contents .salesRanking .kpi-card ul .ranking-item .rank {
+  font-weight: bold;
+  width: 10%;
+  text-align: left;
+}
+.saleschart-contents .salesRanking .kpi-card ul .ranking-item .name {
+  width: 60%;
+  text-align: left;
+}
+.saleschart-contents .salesRanking .kpi-card ul .ranking-item .value {
+  width: 30%;
+  text-align: right;
+  color: #0c335a;
 }
 
 @media screen and (min-width: 900px) {
@@ -580,19 +616,22 @@ footer .copyright {
     height: 100%;
   }
   .home-contents,
-  .kudosboard-contents,
   .saleschart-contents,
   .anniversary-contents,
   .admin-contents,
   .myaccount-contents {
     flex: 1;
-    margin: 20px 30px;
+    margin: 30px 40px;
     overflow: hidden;
   }
   .kudos-board,
   .login,
   .signup {
     height: 100vh;
+  }
+  .kudos-board-contents {
+    height: -moz-max-content;
+    height: max-content;
   }
   .logo-box-desktop {
     display: block;
@@ -629,6 +668,12 @@ footer .copyright {
     gap: 18px;
     color: white;
     font-size: 19px;
+  }
+  .notice-board {
+    display: grid;
+    grid-template-columns: 47% 1fr;
+    gap: 20px;
+    padding: 10px 30px;
   }
   .salesRanking {
     display: grid;
@@ -669,7 +714,61 @@ footer .copyright {
   #permission-selector {
     width: 120px !important;
   }
-  footer {
-    display: none;
+  .kudos-board .kudos-leaderboard h2 {
+    font-size: 27px;
+  }
+  .kudos-board .kudos-leaderboard h2 svg {
+    font-size: 40px;
+    margin-right: 10px;
+  }
+  .kudos-board .kudos-leaderboard-list .leaderboard-item .leaderboard-rank {
+    font-size: 19px;
+  }
+  .kudos-board .kudos-leaderboard-list .leaderboard-item .leaderboard-rank svg {
+    font-size: 40px;
+  }
+  .kudos-board .kudos-leaderboard-list .leaderboard-item .leaderboard-name {
+    font-size: 20px;
+  }
+  .kudos-board .kudos-leaderboard-list .leaderboard-item .leaderboard-kudos-count {
+    font-size: 18px;
+  }
+  .kudos-board .senders-leaderboard {
+    margin: 35px 40px;
+    background-color: white;
+    padding: 30px 40px;
+    border-radius: 10px;
+  }
+  .kudos-board .senders-leaderboard h3 {
+    font-size: 24px;
+    font-weight: 500;
+    border-bottom: 1px solid black;
+    padding-bottom: 30px;
+    display: flex;
+    align-items: end;
+  }
+  .kudos-board .senders-leaderboard h3 svg {
+    font-size: 40px;
+    margin-right: 10px;
+  }
+  .kudos-board .senders-leaderboard .senders-leaderboard-list .senders-item {
+    margin-bottom: 30px;
+  }
+  .kudos-board .senders-leaderboard .senders-leaderboard-list .senders-item .senders-rank {
+    font-size: 18px;
+  }
+  .kudos-board .senders-leaderboard .senders-leaderboard-list .senders-item .senders-name {
+    display: flex;
+    flex-direction: column;
+    flex: 2;
+    margin-left: 30px;
+    font-size: 20px;
+  }
+  .kudos-board .senders-leaderboard .senders-leaderboard-list .senders-item .senders-name span {
+    font-size: 18px;
+    color: rgb(94, 93, 93);
+  }
+  .kudos-board .senders-leaderboard .senders-leaderboard-list .senders-item .senders-post-count {
+    font-size: 18px;
   }
 }/*# sourceMappingURL=App.css.map */

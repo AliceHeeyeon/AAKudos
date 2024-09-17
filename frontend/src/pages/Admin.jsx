@@ -6,7 +6,7 @@ import {
   addAnnouncement,
 } from "../redux/thunks/announcementThunk";
 import { deletUser, changeUserPermisson } from "../redux/thunks/userThunk";
-
+import { getUpdatedUserInfo } from "../redux/thunks/authThunk";
 //MUI Alert
 import Button from "@mui/material/Button";
 import Dialog from "@mui/material/Dialog";
@@ -21,27 +21,30 @@ import { Select } from "@mui/material";
 import Alert from "@mui/material/Alert";
 import AlertTitle from "@mui/material/AlertTitle";
 import Stack from "@mui/material/Stack";
-
 //Icons
 import { FaTrashCan } from "react-icons/fa6";
+//component
+import Navbar from "../components/Navbar";
 
 const Admin = () => {
+  const storedUserId = localStorage.getItem("userId");
   const users = useSelector((state) => state.user.list);
-  const author = useSelector((state) => state.auth.userData[0]);
+  const loginUser = useSelector((state) => state.auth.userData);
+  const author = loginUser ? loginUser[0] : null;
   const updateStatus = useSelector((state) => state.user.status);
   const dispatch = useDispatch();
   const [formData, setFormData] = useState({
-    AuthorId: author.Id,
+    AuthorId: "",
     Text: "",
   });
-  const [announcements, setAnnouncements] = useState([]);
+
   const [open, setOpen] = useState(false);
   const [openInput, setOpenInput] = useState(false);
   const [selectedUser, setSelectedUser] = useState({
     Id: null,
     Name: "",
   });
-  const announcementsList = useSelector((state) => state.announcement.list);
+  const announcements = useSelector((state) => state.announcement.list);
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState(null);
 
@@ -52,12 +55,26 @@ const Admin = () => {
   const [showAlert, setShowAlert] = useState("");
 
   useEffect(() => {
+    dispatch(getUpdatedUserInfo(storedUserId));
     dispatch(getAnnouncement());
-  }, [dispatch]);
+  }, [dispatch, storedUserId]);
 
   useEffect(() => {
-    setAnnouncements(announcementsList);
-  }, [announcementsList]);
+    if (author) {
+      setFormData((prevData) => ({
+        ...prevData,
+        AuthorId: author.Id,
+      }));
+    }
+    if (users.length > 0) {
+      [...users].sort((a, b) => a.Name.localeCompare(b.Name));
+    }
+    setIsLoading(false);
+  }, [author, users]);
+
+  if (isLoading) {
+    return <div>Loading...</div>;
+  }
 
   const handleChange = (name, value) => {
     setFormData({
@@ -74,15 +91,16 @@ const Admin = () => {
       setIsLoading(false);
       return;
     }
-    dispatch(addAnnouncement(formData));
+    try {
+      await dispatch(addAnnouncement(formData));
+      await dispatch(getAnnouncement());
 
-    //Set Timeout to wait to update state after adding announcement
-    setTimeout(() => {
-      dispatch(getAnnouncement());
-      setAnnouncements(announcementsList);
       setIsLoading(false);
-    }, 50);
-    setOpenInput(false);
+      setOpenInput(false);
+    } catch (error) {
+      setError("Failed to add announcement");
+      setIsLoading(false);
+    }
   };
 
   const handleClickOpen = (Id, Name) => {
@@ -136,11 +154,11 @@ const Admin = () => {
     }));
   };
 
-  useEffect(() => {
-    if (users.length > 0) {
-      [...users].sort((a, b) => a.Name.localeCompare(b.Name));
-    }
-  }, [users]);
+  // useEffect(() => {
+  //   if (users.length > 0) {
+  //     [...users].sort((a, b) => a.Name.localeCompare(b.Name));
+  //   }
+  // }, [users]);
 
   const filteredUsers = users
     .filter((user) =>
@@ -149,176 +167,181 @@ const Admin = () => {
     .filter((user) => (roleFilter ? user.Role === roleFilter : true));
 
   return (
-    <div className="admin page">
-      <div className="admin-contents">
-        {/* Announcement Section (Admin only) */}
-        <div className="admin-announcement-section">
-          <div className="admin-announcement-header">
-            <h3>Announcement</h3>
-            <button onClick={() => setOpenInput(true)}>Add a new</button>
+    <>
+      <Navbar />
+      <div className="admin page">
+        <div className="admin-contents">
+          {/* Announcement Section (Admin only) */}
+          <div className="admin-announcement-section">
+            <div className="admin-announcement-header">
+              <h3>Announcement</h3>
+              <button onClick={() => setOpenInput(true)}>Add a new</button>
+            </div>
+
+            {isLoading ? (
+              <p>Loading announcements...</p>
+            ) : (
+              announcements.map((announcement) => (
+                <div key={announcement.Id} className="admin-announcement-item">
+                  <div>{announcement.Text}</div>
+                  <FaTrashCan
+                    className="admin-action-delete"
+                    onClick={() => handleDeleteAnnouncement(announcement.Id)}
+                  />
+                </div>
+              ))
+            )}
           </div>
 
-          {isLoading ? (
-            <p>Loading announcements...</p>
-          ) : (
-            announcements.map((announcement) => (
-              <div key={announcement.Id} className="admin-announcement-item">
-                <div>{announcement.Text}</div>
-                <FaTrashCan
-                  className="admin-action-delete"
-                  onClick={() => handleDeleteAnnouncement(announcement.Id)}
+          {openInput && (
+            <div>
+              <Dialog open={openInput} onClose={handleClose}>
+                <DialogContent>
+                  <TextField
+                    autoFocus
+                    required
+                    margin="dense"
+                    id="name"
+                    placeholder="What info you want to share with all?"
+                    type="text"
+                    fullWidth
+                    multiline
+                    variant="standard"
+                    onChange={(e) => handleChange("Text", e.target.value)}
+                    style={{ width: 50 + "vw" }}
+                  />
+                </DialogContent>
+                <DialogActions>
+                  <Button onClick={handleClose}>Cancel</Button>
+                  <Button type="submit" onClick={handleSubmit}>
+                    Submit
+                  </Button>
+                </DialogActions>
+                {error && (
+                  <div className="error-announcementInput">{error}</div>
+                )}
+              </Dialog>
+            </div>
+          )}
+
+          {/* Team Section (Admin only) */}
+          <div className="admin-team-section">
+            <h3>Team</h3>
+
+            {/* Filter Section */}
+            <div className="admin-team-filter">
+              <div className="admin-team-search">
+                <TextField
+                  size="small"
+                  placeholder="Search by Name"
+                  value={searchTerm}
+                  onChange={(e) => setSearchTerm(e.target.value)}
                 />
               </div>
-            ))
-          )}
-        </div>
 
-        {openInput && (
-          <div>
-            <Dialog open={openInput} onClose={handleClose}>
+              <div className="admin-team-role-filter">
+                <Select
+                  value={roleFilter}
+                  onChange={(e) => setRoleFilter(e.target.value)}
+                  displayEmpty
+                  size="small"
+                >
+                  <MenuItem value="">All Roles</MenuItem>
+                  <MenuItem value="Sales">Sales</MenuItem>
+                  <MenuItem value="Tech">Tech</MenuItem>
+                  <MenuItem value="Administrator">Administrator</MenuItem>
+                  <MenuItem value="Designer">Designer</MenuItem>
+                  <MenuItem value="Operation Administrator">
+                    Operation Administrator
+                  </MenuItem>
+                  <MenuItem value="Project Manager">Project Manager</MenuItem>
+                  <MenuItem value="Dispatch">Dispatch</MenuItem>
+                </Select>
+              </div>
+            </div>
+
+            <div className="admin-team-table-container">
+              {/* Team Table Header */}
+              <div className="admin-team-table-header">
+                <div className="admin-team-header-name">Name</div>
+                <div className="admin-team-header-email">Email</div>
+                <div className="admin-team-header-role">Role</div>
+                <div className="admin-team-header-permission">Permission</div>
+                <div className="admin-team-header-action">Action</div>
+              </div>
+
+              {/* Team List */}
+              {filteredUsers.map((user) => (
+                <div key={user.Id} className="admin-team-item">
+                  <div className="admin-team-name">{user.Name}</div>
+                  <div className="admin-team-email">{user.Email}</div>
+                  <div className="admin-team-role">{user.Role}</div>
+                  <div className="admin-team-permission">
+                    <FormControl id="permission-selector" fullWidth>
+                      <Select
+                        value={
+                          permissions[user.Id] || (user.Permission ? "1" : "0")
+                        }
+                        onChange={(e) =>
+                          handlePermissionChange(user.Id, e.target.value)
+                        }
+                        size="small"
+                      >
+                        <MenuItem value="1">Admin</MenuItem>
+                        <MenuItem value="0">Member</MenuItem>
+                      </Select>
+                    </FormControl>
+                  </div>
+                  <div className="admin-action">
+                    <button onClick={() => handleChangeUserPermission(user.Id)}>
+                      SAVE
+                    </button>
+                    <FaTrashCan
+                      onClick={() => handleClickOpen(user.Id, user.Name)}
+                    />
+                  </div>
+                </div>
+              ))}
+            </div>
+            {showAlert && (
+              <Stack id="success-alert" sx={{ width: "100%" }} spacing={2}>
+                <Alert variant="filled" severity="success">
+                  <AlertTitle>Success</AlertTitle>
+                  Permission updated successfully!
+                </Alert>
+              </Stack>
+            )}
+          </div>
+        </div>
+        {/* Alert popup */}
+        {open && (
+          <>
+            <Button variant="outlined" onClick={handleClickOpen}>
+              Open alert dialog
+            </Button>
+            <Dialog
+              open={open}
+              onClose={handleClose}
+              aria-labelledby="alert-dialog-title"
+              aria-describedby="alert-dialog-description"
+            >
+              <DialogTitle id="alert-dialog-title">
+                {`Permanently delete ${selectedUser.Name}?`}
+              </DialogTitle>
               <DialogContent>
-                <TextField
-                  autoFocus
-                  required
-                  margin="dense"
-                  id="name"
-                  placeholder="What info you want to share with all?"
-                  type="text"
-                  fullWidth
-                  multiline
-                  variant="standard"
-                  onChange={(e) => handleChange("Text", e.target.value)}
-                  style={{ width: 50 + "vw" }}
-                />
+                <DialogContentText id="alert-dialog-description">
+                  {`This action cannot be undone. Are you sure you want to delete ${selectedUser.Name}?`}
+                </DialogContentText>
               </DialogContent>
               <DialogActions>
                 <Button onClick={handleClose}>Cancel</Button>
-                <Button type="submit" onClick={handleSubmit}>
-                  Submit
-                </Button>
+                <Button onClick={handleDeleteUser}>Delete</Button>
               </DialogActions>
-              {error && <div className="error-announcementInput">{error}</div>}
             </Dialog>
-          </div>
+          </>
         )}
-
-        {/* Team Section (Admin only) */}
-        <div className="admin-team-section">
-          <h3>Team</h3>
-
-          {/* Filter Section */}
-          <div className="admin-team-filter">
-            <div className="admin-team-search">
-              <TextField
-                size="small"
-                placeholder="Search by Name"
-                value={searchTerm}
-                onChange={(e) => setSearchTerm(e.target.value)}
-              />
-            </div>
-
-            <div className="admin-team-role-filter">
-              <Select
-                value={roleFilter}
-                onChange={(e) => setRoleFilter(e.target.value)}
-                displayEmpty
-                size="small"
-              >
-                <MenuItem value="">All Roles</MenuItem>
-                <MenuItem value="Sales">Sales</MenuItem>
-                <MenuItem value="Tech">Tech</MenuItem>
-                <MenuItem value="Administrator">Administrator</MenuItem>
-                <MenuItem value="Designer">Designer</MenuItem>
-                <MenuItem value="Operation Administrator">
-                  Operation Administrator
-                </MenuItem>
-                <MenuItem value="Project Manager">Project Manager</MenuItem>
-                <MenuItem value="Dispatch">Dispatch</MenuItem>
-              </Select>
-            </div>
-          </div>
-
-          <div className="admin-team-table-container">
-            {/* Team Table Header */}
-            <div className="admin-team-table-header">
-              <div className="admin-team-header-name">Name</div>
-              <div className="admin-team-header-email">Email</div>
-              <div className="admin-team-header-role">Role</div>
-              <div className="admin-team-header-permission">Permission</div>
-              <div className="admin-team-header-action">Action</div>
-            </div>
-
-            {/* Team List */}
-            {filteredUsers.map((user) => (
-              <div key={user.Id} className="admin-team-item">
-                <div className="admin-team-name">{user.Name}</div>
-                <div className="admin-team-email">{user.Email}</div>
-                <div className="admin-team-role">{user.Role}</div>
-                <div className="admin-team-permission">
-                  <FormControl id="permission-selector" fullWidth>
-                    <Select
-                      value={
-                        permissions[user.Id] || (user.Permission ? "1" : "0")
-                      }
-                      onChange={(e) =>
-                        handlePermissionChange(user.Id, e.target.value)
-                      }
-                      size="small"
-                    >
-                      <MenuItem value="1">Admin</MenuItem>
-                      <MenuItem value="0">Member</MenuItem>
-                    </Select>
-                  </FormControl>
-                </div>
-                <div className="admin-action">
-                  <button onClick={() => handleChangeUserPermission(user.Id)}>
-                    SAVE
-                  </button>
-                  <FaTrashCan
-                    onClick={() => handleClickOpen(user.Id, user.Name)}
-                  />
-                </div>
-              </div>
-            ))}
-          </div>
-          {showAlert && (
-            <Stack id="success-alert" sx={{ width: "100%" }} spacing={2}>
-              <Alert variant="filled" severity="success">
-                <AlertTitle>Success</AlertTitle>
-                Permission updated successfully!
-              </Alert>
-            </Stack>
-          )}
-        </div>
       </div>
-      {/* Alert popup */}
-      {open && (
-        <>
-          <Button variant="outlined" onClick={handleClickOpen}>
-            Open alert dialog
-          </Button>
-          <Dialog
-            open={open}
-            onClose={handleClose}
-            aria-labelledby="alert-dialog-title"
-            aria-describedby="alert-dialog-description"
-          >
-            <DialogTitle id="alert-dialog-title">
-              {`Permanently delete ${selectedUser.Name}?`}
-            </DialogTitle>
-            <DialogContent>
-              <DialogContentText id="alert-dialog-description">
-                {`This action cannot be undone. Are you sure you want to delete ${selectedUser.Name}?`}
-              </DialogContentText>
-            </DialogContent>
-            <DialogActions>
-              <Button onClick={handleClose}>Cancel</Button>
-              <Button onClick={handleDeleteUser}>Delete</Button>
-            </DialogActions>
-          </Dialog>
-        </>
-      )}
-    </div>
+    </>
   );
 };
 

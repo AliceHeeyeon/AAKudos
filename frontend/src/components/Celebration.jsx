@@ -7,7 +7,6 @@ const Celebration = () => {
   const [birthdays, setBirthdays] = useState([]);
   const today = new Date();
   const users = useSelector((state) => state.user.list);
-  console.log(anniversaries, birthdays);
 
   useEffect(() => {
     if (users.length > 0) {

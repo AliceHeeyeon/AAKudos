@@ -9,6 +9,8 @@ import FormControl from "@mui/material/FormControl";
 import { FaMedal } from "react-icons/fa";
 import { FaRankingStar } from "react-icons/fa6";
 import WorkspacePremiumIcon from "@mui/icons-material/WorkspacePremium";
+//component
+import Navbar from "../components/Navbar";
 
 const baseUrl = import.meta.env.VITE_BASE_URL;
 const KudosBoard = () => {
@@ -101,88 +103,93 @@ const KudosBoard = () => {
   };
   <FaMedal />;
   return (
-    <div className="kudos-board page">
-      <div className="kudos-board-contents">
-        <div className="kudos-leaderboard">
-          <h2>
-            <FaRankingStar />
-            Kudos Leaderboard
-          </h2>
-          <FormControl sx={{ m: 1, width: 130 }}>
-            <InputLabel>Time Period</InputLabel>
-            <Select
-              value={filterType}
-              label="Time Period"
-              onChange={(e) => setFilterType(e.target.value)}
-            >
-              <MenuItem value={"monthly"}>Monthly</MenuItem>
-              <MenuItem value={"yearly"}>Yearly</MenuItem>
-            </Select>
-          </FormControl>
+    <>
+      <Navbar />
+      <div className="kudos-board page">
+        <div className="kudos-board-contents">
+          <div className="kudos-leaderboard">
+            <h2>
+              <FaRankingStar />
+              Kudos Leaderboard
+            </h2>
+            <FormControl sx={{ m: 1, width: 130 }}>
+              <InputLabel>Time Period</InputLabel>
+              <Select
+                value={filterType}
+                label="Time Period"
+                onChange={(e) => setFilterType(e.target.value)}
+              >
+                <MenuItem value={"monthly"}>Monthly</MenuItem>
+                <MenuItem value={"yearly"}>Yearly</MenuItem>
+              </Select>
+            </FormControl>
 
-          {kudosRanking.length > 0 ? (
-            <div className="kudos-leaderboard-list">
-              {kudosRanking.map(([targetId, count], index) => {
-                const { name, role } = findUserNameById(targetId);
-                return (
-                  <div
-                    className="leaderboard-item"
-                    key={targetId}
-                    style={index === 0 ? { backgroundColor: "#ffc78f" } : {}}
-                  >
-                    <p className="leaderboard-rank">
-                      {index === 0 ? <FaMedal /> : index + 1}
-                    </p>
-                    <p className="leaderboard-name">
-                      {name}
-                      <span>{role}</span>
-                    </p>
-                    <p className="leaderboard-kudos-count">
-                      {count} {count === 1 ? "Kudo" : "Kudos"}
-                    </p>
-                  </div>
-                );
-              })}
-            </div>
-          ) : (
-            <p>No data available for this period</p>
-          )}
-        </div>
-
-        <div className="senders-leaderboard">
-          <h3>
-            <WorkspacePremiumIcon />
-            Amazing Senders
-          </h3>
-          {sendersRanking.length > 0 ? (
-            <div className="senders-leaderboard-list">
-              {sendersRanking.map(([targetId, count], index) => {
-                const { name, role } = findUserNameById(targetId);
-                return (
-                  <div className="senders-item" key={targetId}>
-                    <p
-                      className="senders-rank"
+            {kudosRanking.length > 0 ? (
+              <div className="kudos-leaderboard-list">
+                {kudosRanking.map(([targetId, count], index) => {
+                  const { name, role } = findUserNameById(targetId);
+                  return (
+                    <div
+                      className="leaderboard-item"
+                      key={targetId}
                       style={index === 0 ? { backgroundColor: "#ffc78f" } : {}}
                     >
-                      {index + 1}
-                    </p>
-                    <p className="senders-name">
-                      {name}
-                      <span>{role}</span>
-                    </p>
-                    <p className="senders-post-count">
-                      {count} {count === 1 ? "Post" : "Posts"}
-                    </p>
-                  </div>
-                );
-              })}
-            </div>
-          ) : (
-            <p>No data available for this period</p>
-          )}
+                      <p className="leaderboard-rank">
+                        {index === 0 ? <FaMedal /> : index + 1}
+                      </p>
+                      <p className="leaderboard-name">
+                        {name}
+                        <span>{role}</span>
+                      </p>
+                      <p className="leaderboard-kudos-count">
+                        {count} {count === 1 ? "Kudo" : "Kudos"}
+                      </p>
+                    </div>
+                  );
+                })}
+              </div>
+            ) : (
+              <p>No data available for this period</p>
+            )}
+          </div>
+
+          <div className="senders-leaderboard">
+            <h3>
+              <WorkspacePremiumIcon />
+              Amazing Senders
+            </h3>
+            {sendersRanking.length > 0 ? (
+              <div className="senders-leaderboard-list">
+                {sendersRanking.map(([targetId, count], index) => {
+                  const { name, role } = findUserNameById(targetId);
+                  return (
+                    <div className="senders-item" key={targetId}>
+                      <p
+                        className="senders-rank"
+                        style={
+                          index === 0 ? { backgroundColor: "#ffc78f" } : {}
+                        }
+                      >
+                        {index + 1}
+                      </p>
+                      <p className="senders-name">
+                        {name}
+                        <span>{role}</span>
+                      </p>
+                      <p className="senders-post-count">
+                        {count} {count === 1 ? "Post" : "Posts"}
+                      </p>
+                    </div>
+                  );
+                })}
+              </div>
+            ) : (
+              <p>No data available for this period</p>
+            )}
+          </div>
         </div>
       </div>
-    </div>
+    </>
   );
 };
 
